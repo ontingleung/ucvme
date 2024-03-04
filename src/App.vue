@@ -13,6 +13,13 @@ import HelloWorld from './components/HelloWorld.vue'
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
+        <router-link to="/listing-creation">Listing Creation</router-link>
+        <router-link to="/messaging">Messaging</router-link>
+        <router-link to="/profile-edit">Profile Edit</router-link>
+        <router-link to="/profile-search">Profile Search</router-link>
+        <router-link to="/search-listings">Search Listings</router-link>
+        <router-link to="/settings">Settings</router-link>
+        <router-link to="/view-profile">View Profile</router-link>
       </nav>
     </div>
   </header>
@@ -43,7 +50,7 @@ nav a.router-link-exact-active {
 }
 
 nav a.router-link-exact-active:hover {
-  background-color: transparent;
+  background-color: green;
 }
 
 nav a {
