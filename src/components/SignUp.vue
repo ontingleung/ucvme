@@ -1,7 +1,3 @@
-<script setup>
-
-</script>
-
 <template>
     <div class="max-w-screen-xl mx-auto bg-white md:rounded-lg flex justify-center">
         <div class="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
@@ -45,12 +41,14 @@
                     <div class="mx-auto max-w-xs">
                         <input
                             class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                            type="email" placeholder="Email" />
+                            type="email" placeholder="Email" v-model="email"/>
                         <input
                             class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                            type="password" placeholder="Password" />
+                            type="password" placeholder="Password" v-model="password"/>
                         <button
-                            class="mt-5 tracking-wide font-semibold bg-emerald-400 text-gray-100 w-full py-4 rounded-lg hover:bg-emerald-600 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+                            class="mt-5 tracking-wide font-semibold bg-emerald-400 text-gray-100 w-full py-4 rounded-lg hover:bg-emerald-600 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                            @click="signup"
+                            >
                             <svg class="w-6 h-6 -ml-2" fill="none" stroke="currentColor" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
@@ -82,5 +80,35 @@
         </div>
     </div>
 </template>
+
+
+<script setup>
+import { ref } from 'vue';
+import { auth } from "@/firebase";
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { useRouter } from 'vue-router';
+
+const email = ref("");
+const password = ref("");
+const router = useRouter();
+
+const signup = () => {
+    createUserWithEmailAndPassword(auth, email.value, password.value)
+    .then((data) => {
+        console.log(" ");
+        router.push('/')
+    })
+    .catch((error) => {
+        console.log(error.code);
+        alert(error.message);
+    });
+};
+
+const googleSignUp = () => {
+
+};
+
+</script>
+
 
 <style lang="scss" scoped></style>
