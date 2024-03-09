@@ -1,3 +1,7 @@
-<script></script>
+<script>
+import SignUp from '@/components/SignUp.vue';
+</script>
 
-<template></template>
+<template>
+    <SignUp></SignUp>
+</template>
