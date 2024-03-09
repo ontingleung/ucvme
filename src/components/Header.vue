@@ -6,12 +6,12 @@ import { RouterLink, useRoute } from 'vue-router';
     <header>
         <nav class="container">
             <div class="logo">
-                <img alt="UCVME">
+                <h1>UVCME</h1>
                 <RouterLink to="/">
                 </RouterLink>
             </div>
             <ul class="nav-routes">
-                <RouterLink to="/">Home</RouterLink>
+                <!-- <RouterLink to="/">Home</RouterLink>
                 <RouterLink to="/about">About</RouterLink>
                 <RouterLink to="/signup">SignUp</RouterLink>
                 <router-link to="/listing-creation">Listing Creation</router-link>
@@ -20,7 +20,7 @@ import { RouterLink, useRoute } from 'vue-router';
                 <router-link to="/profile-search">Profile Search</router-link>
                 <router-link to="/search-listings">Search Listings</router-link>
                 <router-link to="/settings">Settings</router-link>
-                <router-link to="/view-profile">View Profile</router-link>
+                <router-link to="/view-profile">View Profile</router-link> -->
             </ul>
         </nav>
     </header>
@@ -29,11 +29,11 @@ import { RouterLink, useRoute } from 'vue-router';
 <style lang="scss" scoped>
 
 header {
-  background-color: #119835;
+  // background-color: #315639;
   nav {
     display: flex;
     align-items: center;
-    padding: 25px 16px;
+    padding: 25px 30px;
 
     .logo {
       display: flex;
@@ -44,9 +44,9 @@ header {
       }
 
       h1 {
-        font-size: 24px;
+        font-size: 40px;
         text-decoration: none;
-        color: inherit;
+        color: #315639;
       }
     }
 
