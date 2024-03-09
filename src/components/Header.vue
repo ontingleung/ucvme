@@ -11,9 +11,9 @@ import { RouterLink, useRoute } from 'vue-router';
                 </RouterLink>
             </div>
             <ul class="nav-routes">
+              <RouterLink to="/signup">SignUp</RouterLink>
                 <!-- <RouterLink to="/">Home</RouterLink>
                 <RouterLink to="/about">About</RouterLink>
-                <RouterLink to="/signup">SignUp</RouterLink>
                 <router-link to="/listing-creation">Listing Creation</router-link>
                 <router-link to="/messaging">Messaging</router-link>
                 <router-link to="/profile-edit">Profile Edit</router-link>
