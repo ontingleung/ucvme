@@ -15,6 +15,11 @@ const router = createRouter({
       component: () => import('../views/SignUpView.vue')
     },
     {
+      path: '/profilecreation/new',
+      name: 'accountCreation',
+      component: () => import('../views/AccountCreationView.vue')
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting

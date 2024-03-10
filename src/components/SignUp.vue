@@ -96,7 +96,7 @@ const signup = () => {
     createUserWithEmailAndPassword(auth, email.value, password.value)
     .then((data) => {
         console.log(" ");
-        router.push('/')
+        router.push('/profilecreation/new')
     })
     .catch((error) => {
         console.log(error.code);
