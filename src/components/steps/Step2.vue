@@ -1,14 +1,15 @@
 <script setup>
-import { defineProps, ref} from 'vue';
+import { ref } from 'vue';
 
 const props = defineProps({
-  firstName: String,
-  lastName: String,
   town: String,
   county: String
 });
 
-
+const userLoc = ref({
+  town: props.town,
+  county: props.county
+});
 
 </script>
 
@@ -25,7 +26,9 @@ const props = defineProps({
                 <label for="city" class="block text-sm font-medium leading-6 text-gray-900">Town</label>
                 <div class="mt-2">
                     <input type="text" name="city" id="city" autocomplete="address-level2"
-                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6" 
+                        v-model="userLoc.town"
+                        />
                 </div>
             </div>
 
@@ -33,8 +36,10 @@ const props = defineProps({
                 <label for="county" class="block text-sm font-medium leading-6 text-gray-900">County</label>
                 <div class="mt-2">
                     <select id="county" name="county" autocomplete="county-name"
-                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                        <option disabled selected>Pick</option>
+                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                        v-model="userLoc.county"
+                        >
+                        <option disabled selected>{{ props.county }}</option>
                         <option>Carlow</option>
                         <option>Cavan</option>
                         <option>Clare</option>
@@ -68,7 +73,7 @@ const props = defineProps({
         <div class="flex justify-between mt-10">
             <button v-if="currentStep !== 0" @click="$emit('next', 0)"
                 class="bg-gray-500 text-white py-2 px-4 rounded-full">Previous</button>
-            <button @click="$emit('next', 2)" class="bg-indigo-500 text-white py-2 px-4 rounded-full">Next</button>
+            <button @click="$emit('next', 2), $emit('update', 2, userNames)" class="bg-emerald-500 text-white py-2 px-4 rounded-full">Next</button>
         </div>
     </div>
 </template>

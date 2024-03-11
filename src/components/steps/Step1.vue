@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref} from 'vue';
+import { ref } from 'vue';
 
 const props = defineProps({
   firstName: String,
@@ -27,7 +27,7 @@ const userNames = ref({
                 <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900" >First Name</label>
                 <div class="mt-2">
                     <input type="text" name="first-name" id="first-name" autocomplete="given-name"
-                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
                         v-model="userNames.first"/>
                 </div>
             </div>
@@ -36,13 +36,13 @@ const userNames = ref({
                 <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last name</label>
                 <div class="mt-2">
                     <input type="text" name="last-name" id="last-name" autocomplete="family-name"
-                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
                         v-model="userNames.last"/>
                 </div>
             </div>
         </div>
         <div class="flex justify-end mt-10">
-            <button @click="$emit('next', 1), $emit('update', userNames)" class="bg-indigo-500 text-white py-2 px-4 rounded-full">Next</button>
+            <button @click="$emit('next', 1), $emit('update', 1, userNames)" class="bg-emerald-500 text-white py-2 px-4 rounded-full">Next</button>
         </div>
     </div>
 </template>

@@ -25,7 +25,7 @@ const currentStep = ref(0);
 const firstName = ref("")
 const lastName = ref("")
 const town = ref("")
-const county = ref("")
+const county = ref("Pick")
 
 const steps = [
   { number: 0, component: Step1 },
@@ -37,10 +37,25 @@ const currentStepComponent = computed(() => {
   return step ? step.component : null;
 });
 
-const updateData = (data) => {
-  firstName.value = data.first
-  lastName.value = data.last
-  
+const updateData = (step, data) => {
+  switch (step) {
+    case 1:
+      firstName.value = data.first
+      lastName.value = data.last
+
+      break;
+ 
+    case 2:
+      town.value = data.town
+      county.value = data.county
+
+      break;
+
+    default:
+      break;
+  }
+
+
 };
 
 
