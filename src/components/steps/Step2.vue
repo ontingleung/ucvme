@@ -2,25 +2,27 @@
 import { ref } from 'vue';
 
 const props = defineProps({
-  town: String,
-  county: String
+    firstName: String,
+    town: String,
+    county: String
 });
 
 const userLoc = ref({
-  town: props.town,
-  county: props.county
+    town: props.town,
+    county: props.county
 });
 
 </script>
 
 <template>
     <div>
-        <h2 class="pt-5 text-base font-semibold leading-7 text-gray-900">Step 2 of 4: Location</h2>
+        <h2 class="pt-5 text-base font-semibold leading-7 text-gray-900">Step 2 of 4: Location 📍</h2>
         <div class="m-1 overflow-hidden rounded-full bg-gray-200">
             <div class="h-2 w-1/2 rounded-full bg-emerald-400"></div>
         </div>
-
-        <p class="mt-5 text-md leading-6 text-gray-600">See jobs listing close to you</p>
+        <p class="mt-5 text-md leading-6 text-gray-600">Hello {{ props.firstName }}, 👋🏼 Welcome!</p>
+        <p class="text-md leading-6 text-gray-600">Enter your location to get jobs listing close to you.</p>
+        <p class="text-md leading-6 text-gray-600"></p>
         <div class="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div class="sm:col-span-3">
                 <label for="city" class="block text-sm font-medium leading-6 text-gray-900">Town</label>
@@ -71,9 +73,9 @@ const userLoc = ref({
             </div>
         </div>
         <div class="flex justify-between mt-10">
-            <button v-if="currentStep !== 0" @click="$emit('next', 0)"
+            <button @click="$emit('next', 0)"
                 class="bg-gray-500 text-white py-2 px-4 rounded-full">Previous</button>
-            <button @click="$emit('next', 2), $emit('update', 2, userNames)" class="bg-emerald-500 text-white py-2 px-4 rounded-full">Next</button>
+            <button @click="$emit('next', 2), $emit('update', 2, userLoc)" class="bg-emerald-500 text-white py-2 px-4 rounded-full">Next</button>
         </div>
     </div>
 </template>

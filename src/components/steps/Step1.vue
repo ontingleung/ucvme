@@ -15,7 +15,7 @@ const userNames = ref({
 
 <template>
     <div>
-        <h2 class="pt-5 text-base font-semibold leading-7 text-gray-900">Step 1 of 4: Personal Information</h2>
+        <h2 class="pt-5 text-base font-semibold leading-7 text-gray-900">Step 1 of 4: Personal Information ℹ️</h2>
         <div class="m-1 overflow-hidden rounded-full bg-gray-200">
             <div class="h-2 w-1/4 rounded-full bg-emerald-300"></div>
         </div>
