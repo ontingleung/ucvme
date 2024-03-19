@@ -3,6 +3,13 @@ import HomeView from '../views/HomeView.vue'
 import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 
+// ***************************************************************
+//
+// Sections with authentication guard have been commented for when the team is developing pages.
+// -- Onting [19/03/2024]
+//
+// ***************************************************************
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -25,9 +32,9 @@ const router = createRouter({
       path: '/profilecreation/new',
       name: 'accountCreation',
       component: () => import('../views/AccountCreationView.vue'),
-      meta: {
-        requireAuth: true,
-      },
+      // meta: {
+      //   requireAuth: true,
+      // },
     },
     {
       path: '/about',
@@ -41,84 +48,85 @@ const router = createRouter({
       path: '/listing-creation',
       name: 'listingCreation',
       component: () => import('../views/ListingCreationView.vue'),
-      meta: {
-        requireAuth: true,
-      },
+      // meta: {
+      //   requireAuth: true,
+      // },
     },
     {
       path: '/messaging',
       name: 'messaging',
       component: () => import('../views/MessagingView.vue'),
-      meta: {
-        requireAuth: true,
-      },
+      // meta: {
+      //   requireAuth: true,
+      // },
     },
     {
       path: '/profile-edit',
       name: 'profileEdit',
       component: () => import('../views/ProfileEditView.vue'),
-      meta: {
-        requireAuth: true,
-      },
+      // meta: {
+      //   requireAuth: true,
+      // },
     },
     {
       path: '/profile-search',
       name: 'profileSearch',
       component: () => import('../views/ProfileSearchView.vue'),
-      meta: {
-        requireAuth: true,
-      },
+      // meta: {
+      //   requireAuth: true,
+      // },
     },
     {
       path: '/search-listings',
       name: 'searchListings',
       component: () => import('../views/SearchListingsView.vue'),
-      meta: {
-        requireAuth: true,
-      },
+      // meta: {
+      //   requireAuth: true,
+      // },
     },
     {
       path: '/settings',
       name: 'settings',
       component: () => import('../views/SettingsView.vue'),
-      meta: {
-        requireAuth: true,
-      },
+      // meta: {
+      //   requireAuth: true,
+      // },
     },
     {
       path: '/view-profile',
       name: 'viewProfile',
       component: () => import('../views/ViewProfileView.vue'),
-      meta: {
-        requireAuth: true,
-      },
+      // meta: {
+      //   requireAuth: true,
+      // },
     }
   ]
 })
 
-const getCurrentUser = () => {
-  return new Promise((resolve, reject) => {
-    const removeListener = onAuthStateChanged(
-      auth,
-      (user) => {
-        removeListener();
-        resolve(user);
-      },
-      reject
-    );
-  })
-};
 
-router.beforeEach(async (to, from, next) => {
-  if(to.matched.some((record) => record.meta.requireAuth)) {
-    if (await getCurrentUser()) {
-      next();
-    } else {
-      next('/')
-    }
-  } else {
-    next()
-  }
-});
+// const getCurrentUser = () => {
+//   return new Promise((resolve, reject) => {
+//     const removeListener = onAuthStateChanged(
+//       auth,
+//       (user) => {
+//         removeListener();
+//         resolve(user);
+//       },
+//       reject
+//     );
+//   })
+// };
+
+// router.beforeEach(async (to, from, next) => {
+//   if(to.matched.some((record) => record.meta.requireAuth)) {
+//     if (await getCurrentUser()) {
+//       next();
+//     } else {
+//       next('/')
+//     }
+//   } else {
+//     next()
+//   }
+// });
 
 export default router
