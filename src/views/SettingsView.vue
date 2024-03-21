@@ -6,6 +6,13 @@
         </h1>
         <div class="w-full max-w-md">
           <form class="space-y-6" @submit.prevent="updateSettings">
+            <div class="flex flex-col mb-4">
+              <label for="profile-image" class="block text-gray-700 mb-2">Profile Picture</label>
+              <input type="file" id="profile-image" @change="previewImage" accept="image/*">
+              <div v-if="user.profilePicture" class="mt-3">
+                <img :src="user.profilePicture" alt="Profile Image Preview" class="h-20 w-20 object-cover rounded-full">
+              </div>
+            </div>
             <div>
               <label class="block text-gray-700">Email</label>
               <input
@@ -17,6 +24,18 @@
               <input
                 class="w-full px-4 py-3 rounded-lg bg-gray-100 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
                 type="password" placeholder="Password" v-model="user.password">
+            </div>
+            <div>
+              <label class="block text-gray-700">Town</label>
+              <input
+                class="w-full px-4 py-3 rounded-lg bg-gray-100 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                type="text" placeholder="Town" v-model="user.town">
+            </div>
+            <div>
+              <label class="block text-gray-700">County</label>
+              <input
+                class="w-full px-4 py-3 rounded-lg bg-gray-100 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                type="text" placeholder="County" v-model="user.county">
             </div>
             <button
               class="w-full block bg-emerald-400 hover:bg-emerald-500 text-white font-semibold rounded-lg px-4 py-3 mt-6">
@@ -34,11 +53,20 @@
   const user = ref({
     email: '',
     password: '',
+    town: '',
+    county: '',
+    profilePicture: null // im assuming url
   });
   
   function updateSettings() {
-    // put the update logic here
+    // Update logic here
     console.log('Settings updated:', user.value);
+  }
+  
+  function previewImage(event) {
+    const file = event.target.files[0];
+    user.profilePicture = URL.createObjectURL(file);
+    // file upload for the picture
   }
   </script>
 
