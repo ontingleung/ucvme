@@ -93,7 +93,16 @@ const router = createRouter({
       // },
     },
     {
+      // When NO profile ID is given, redirect to profile search
       path: '/view-profile',
+      name: 'noProfileProvided',
+      component: () => import('../views/ProfileSearchView.vue'),
+      // meta: {
+      //   requireAuth: true,
+      // },
+    },
+    {
+      path: '/view-profile/:profileID',
       name: 'viewProfile',
       component: () => import('../views/ViewProfileView.vue'),
       // meta: {
