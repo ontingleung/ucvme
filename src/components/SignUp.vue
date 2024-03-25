@@ -84,8 +84,9 @@
 
 <script setup>
 import { ref } from 'vue';
-import { auth } from "@/firebase";
+import { auth, db } from "@/firebase";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 import { useRouter } from 'vue-router';
 
 const email = ref("");
@@ -94,9 +95,27 @@ const router = useRouter();
 
 const signup = () => {
     createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then((data) => {
-        console.log(" ");
-        router.push('/profilecreation/new')
+    .then((userCredential) => {
+        const user = userCredential.user;
+        
+        const userDocRef = doc(db, 'users', user.uid);
+        const userData = {
+            firstname: "",
+            surname: "",
+            email: email.value,
+            profileImage: "",
+            town: "",
+            county: "",
+            videoUrl: "",
+        };
+        setDoc(userDocRef, userData)
+        .then(() => {
+            console.log("User document created successfully");
+            router.push('/profilecreation/new');
+        })
+        .catch((error) => {
+            console.error("Error adding document: ", error);
+        });
     })
     .catch((error) => {
         console.log(error.code);

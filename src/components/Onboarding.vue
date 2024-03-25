@@ -1,15 +1,8 @@
 <template>
   <div class="max-w-screen-sm mx-auto shadow bg-white md:rounded-lg">
     <div class="pb-12 m-20">
-      <component
-        :is="currentStepComponent"
-        v-on:next="nextStep"
-        :firstName="firstName"
-        :lastName="lastName"
-        :town="town"
-        :county="county"
-        v-on:update="updateData"
-      />
+      <component :is="currentStepComponent" v-on:next="nextStep" :firstName="firstName" :lastName="lastName"
+        :town="town" :county="county" v-on:update="updateData" />
     </div>
   </div>
 </template>
@@ -17,6 +10,13 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import { auth, db } from '@/firebase';
+import { doc, updateDoc } from "firebase/firestore";
+
+const currentUserUid = auth.currentUser;
+const userRef = doc(db, "users", currentUserUid.uid);
+
+
 import Step1 from '@/components/steps/Step1.vue';
 import Step2 from '@/components/steps/Step2.vue';
 import Step3 from '@/components/steps/Step3.vue';
@@ -41,14 +41,18 @@ const currentStepComponent = computed(() => {
   return step ? step.component : null;
 });
 
-const updateData = (step, data) => {
+const updateData = async (step, data) => {
   switch (step) {
     case 1:
       firstName.value = data.first
       lastName.value = data.last
 
+      await updateDoc(userRef, {
+        firstname: firstName.value,
+        surname: lastName.value
+      });
       break;
- 
+
     case 2:
       town.value = data.town
       county.value = data.county
@@ -69,4 +73,3 @@ const nextStep = (step) => {
 
 
 </script>
-

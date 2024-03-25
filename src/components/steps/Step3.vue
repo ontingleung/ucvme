@@ -1,15 +1,6 @@
 <script setup>
 import { ref } from 'vue';
 
-const props = defineProps({
-    firstName: String,
-    lastName: String,
-});
-
-const userNames = ref({
-    first: props.firstName,
-    last: props.lastName
-});
 
 </script>
 
