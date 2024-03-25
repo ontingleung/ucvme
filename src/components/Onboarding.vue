@@ -24,10 +24,11 @@ import Step4 from '@/components/steps/Step4.vue';
 
 const currentStep = ref(0);
 
-const firstName = ref("")
-const lastName = ref("")
-const town = ref("")
-const county = ref("Pick")
+const firstName = ref("");
+const lastName = ref("");
+const town = ref("");
+const county = ref("Pick");
+const videoUrl = ref("");
 
 const steps = [
   { number: 0, component: Step1 },
@@ -51,11 +52,28 @@ const updateData = async (step, data) => {
         firstname: firstName.value,
         surname: lastName.value
       });
+
       break;
 
     case 2:
       town.value = data.town
       county.value = data.county
+      
+      await updateDoc(userRef, {
+        town: town.value,
+        county: county.value
+      });
+
+      break;
+
+    case 3:
+      videoUrl.value = data.url;
+      console.log(typeof(videoUrl.value));
+      console.log()
+      console.log(videoUrl.value)
+      await updateDoc(userRef, {
+        videoUrl: videoUrl.value
+      });
 
       break;
 
