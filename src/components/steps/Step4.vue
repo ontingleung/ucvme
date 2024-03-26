@@ -1,11 +1,30 @@
 <script setup>
-import { ref } from 'vue';
+import { defineProps, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '@/firebase';
 
 const props = defineProps({
     firstName: String,
-
 });
 
+const router = useRouter();
+
+let currentUserUid;
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        currentUserUid = user.uid;
+    } else {
+        console.log("No user is signed in.");
+    }
+});
+
+onMounted(() => {
+    setTimeout(() => {
+        router.push(`/view-profile/${currentUserUid}`); 
+    }, 5000); 
+});
 </script>
 
 <template>

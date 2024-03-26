@@ -11,10 +11,8 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { auth, db } from '@/firebase';
-import { doc, updateDoc } from "firebase/firestore";
-
-const currentUserUid = auth.currentUser;
-const userRef = doc(db, "users", currentUserUid.uid);
+import { updateDoc, doc } from "firebase/firestore";
+import { onAuthStateChanged } from 'firebase/auth';
 
 
 import Step1 from '@/components/steps/Step1.vue';
@@ -23,12 +21,21 @@ import Step3 from '@/components/steps/Step3.vue';
 import Step4 from '@/components/steps/Step4.vue';
 
 const currentStep = ref(0);
+let userRef;
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    const currentUserUid = user.uid;
+    userRef = doc(db, "users", currentUserUid);
+  } else {
+    console.log("No user is signed in.");
+  }
+});
 
 const firstName = ref("");
 const lastName = ref("");
 const town = ref("");
 const county = ref("Pick");
-const videoUrl = ref("");
 
 const steps = [
   { number: 0, component: Step1 },
@@ -62,17 +69,6 @@ const updateData = async (step, data) => {
       await updateDoc(userRef, {
         town: town.value,
         county: county.value
-      });
-
-      break;
-
-    case 3:
-      videoUrl.value = data.url;
-      console.log(typeof(videoUrl.value));
-      console.log()
-      console.log(videoUrl.value)
-      await updateDoc(userRef, {
-        videoUrl: videoUrl.value
       });
 
       break;
