@@ -43,7 +43,7 @@ onMounted(async () => {
 
     } else {
         // docSnap.data() will be undefined in this case
-        console.log("ERROR 404 : No document found for user " + doc_id);
+        console.warn("ERROR 404 : No document found for user " + doc_id);
     }
 });
 
