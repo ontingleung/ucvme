@@ -5,21 +5,93 @@ import { db } from "@/firebase";
 import Profile_Card from "../components/ProfileSearch/Profile_Card.vue"
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
 
-const counties = ["Cork", "Galway", "Mayo", "Donegal", "Kerry", "Tipperary", "Clare", "Tyrone", "Antrim", "Limerick", "Roscommon", "Down", "Wexford", "Meath", "Derry", "Kilkenny", "Wicklow", "Offaly", "Cavan", "Waterford", "Westmeath", "Sligo", "Laois", "Kildare", "Fermanagh", "Leitrim", "Armagh", "Monaghan", "Longford", "Dublin", "Carlow", "Louth"];
+const counties: [string, boolean][] = [
+    ['Antrim', false],
+    ['Armagh', false],
+    ['Carlow', false],
+    ['Cavan', false],
+    ['Clare', false],
+    ['Cork', false],
+    ['Derry', false],
+    ['Donegal', false],
+    ['Down', false],
+    ['Dublin', false],
+    ['Fermanagh', false],
+    ['Galway', false],
+    ['Kerry', false],
+    ['Kildare', false],
+    ['Kilkenny', false],
+    ['Laois', false],
+    ['Leitrim', false],
+    ['Limerick', false],
+    ['Longford', false],
+    ['Louth', false],
+    ['Mayo', false],
+    ['Meath', false],
+    ['Monaghan', false],
+    ['Offaly', false],
+    ['Roscommon', false],
+    ['Sligo', false],
+    ['Tipperary', false],
+    ['Tyrone', false],
+    ['Waterford', false],
+    ['Westmeath', false],
+    ['Wexford', false],
+    ['Wicklow', false],
+];
 const filter_age_max = ref("150");
 const filter_age_min = ref("16");
 const filter_county = ref(counties);
 const filter_name = ref("");
 const profiles = ref([])
+const no_profiles_found = ref(false);
 
 var last_searched_name = "";
 
 onMounted(() => {
     query_profiles();
-
+    setInterval(show_no_results_message, 4000);
 });
 
+
+function show_no_results_message()
+{
+    if(profiles.value.length <= 0)
+    {
+        no_profiles_found.value = true
+    }
+    else
+    {
+        no_profiles_found.value = false
+    }
+}
+
 const update_profiles = (results_buffer: QuerySnapshot<DocumentData, DocumentData>, clear_profile_list: boolean) => {
+
+    var local_buffer = [];
+    var bother_check_counties = false;
+    var acceptable_counties: string[] = [];
+
+    for (let index = 0; index < counties.length; index++) {
+        if (counties[index][1] == true) {
+            bother_check_counties = true;
+            console.debug("Adding " + counties[index][0] + " : " + typeof (counties[index][0]) + " to counties to filter for");
+            acceptable_counties.push(counties[index][0]);
+        }
+    }
+
+    if (bother_check_counties == true) {
+        results_buffer.docs.forEach((doc) => {
+            console.debug("Is " + doc.data()["county"] + " in " + acceptable_counties + " == " + (acceptable_counties.indexOf(doc.data()["county"]) > -1));
+            if (acceptable_counties.indexOf(doc.data()["county"]) > -1) {
+                local_buffer.push(doc);
+            }
+
+        })
+    }
+    else {
+        local_buffer = results_buffer.docs;
+    }
 
     // We need to clear the profiles list first, rather than adding to it already
     if (clear_profile_list == true) {
@@ -28,7 +100,8 @@ const update_profiles = (results_buffer: QuerySnapshot<DocumentData, DocumentDat
         }
     }
 
-    results_buffer.forEach((doc) => {
+    console.debug("Current Local Profile buffer is " + local_buffer.length)
+    local_buffer.forEach((doc) => {
         var current_profile = JSON.stringify(doc.data());
         var current_profile_JSON = JSON.parse(current_profile);
         current_profile_JSON["profile_ID"] = doc.id;
@@ -44,21 +117,25 @@ const update_profiles = (results_buffer: QuerySnapshot<DocumentData, DocumentDat
 const query_profiles = async () => {
 
     // Step 1 : Clear everything first
-    var profiles_buffer: QuerySnapshot<DocumentData, DocumentData> = null;
+    var profiles_buffer: QuerySnapshot<DocumentData, DocumentData>;
 
     // Step 2 : Has the user typed a name to search for?
     let name_search_field: string = (document.getElementById("profile_name") as HTMLInputElement).value;
 
     if (name_search_field.length > 0 && name_search_field != last_searched_name) {     // We need to look for someone!
-        console.debug("Preforming Name query");
+
+
         last_searched_name = name_search_field; // We dont want to look for the SAME name
+
 
         // TODO : THIS IS AWFUL!!! STRING COMPARISONS SHOULD BE DONE BY TYPESENSE! 
         var first_name_results_query = query(collection(db, "users"), where("firstname", ">=", name_search_field)); // Firestore string querys are weird
         var last_name_results_query = query(collection(db, "users"), where("surname", ">=", name_search_field));
 
+        console.debug("Getting collection data now");
         var first_name_results = await getDocs(first_name_results_query);
         var last_name_results = await getDocs(last_name_results_query);
+        console.debug("Collection data recieved");
 
 
         // Add First Name Results first, THEN surname results
@@ -79,6 +156,7 @@ const query_profiles = async () => {
     }
 
     else {  // No name was enetered
+        //await new Promise(r => setTimeout(r, 90000000)); 
         profiles_buffer = await getDocs(query(collection(db, "users"), limit(2))); // get the first 2 profiles
         update_profiles(profiles_buffer, true);
 
@@ -88,57 +166,9 @@ const query_profiles = async () => {
         profiles_buffer = await getDocs(query(collection(db, "users"), startAfter(profiles_buffer.docs[profiles_buffer.docs.length - 1]))); // get the rest
         update_profiles(profiles_buffer, false);
     }
-
-
-    /*
-    // TODO : Update structure of users collection in firebase to allow for additional parametres such as age
-    const profile_search_query = query(collection(db, "users"), 
-        where("age", ">=", filter_age_min),
-        where("age", "<=", filter_age_max));
-    
-    
-
-    console.log("FETCHING FIRST COUPLE PROFILES");
-
-    
-
-    //clear everything first
-    var profiles_buffer = null; 
-    for (let index = profiles.value.length - 1; index >= 0; index--) {
-        profiles.value.pop()
-    }
-    
-    
-    // Query the first page of docs based on the name(s)
-    profiles_buffer = await query_name_search();
-
-    profiles_buffer.forEach((doc) => {
-        var current_profile = JSON.stringify(doc.data());
-        var current_profile_JSON = JSON.parse(current_profile);
-        current_profile_JSON["profile_ID"] = doc.id;
-        profiles.value.push(JSON.stringify(current_profile_JSON));
-        console.log("Pushed " + JSON.stringify(current_profile_JSON) + " onto profile buffer");
-    });
-
-    console.log("FETCHING LATER PROFILES");
-
-    // Construct a new query starting at this document,
-    const next = query(collection(db, "users"), startAfter(profiles_buffer.docs[profiles_buffer.docs.length - 1]));
-    profiles_buffer = await getDocs(next);
-    if (profiles_buffer.size > 0) {
-        profiles_buffer.forEach((doc) => {
-            var current_profile = JSON.stringify(doc.data());
-            var current_profile_JSON = JSON.parse(current_profile);
-            current_profile_JSON["profile_ID"] = doc.id;
-            profiles.value.push(JSON.stringify(current_profile_JSON));
-            console.log("Pushed " + JSON.stringify(current_profile_JSON) + " onto profile buffer");
-        });
-    }
-    else {
-        console.warn("ERROR 404 : No other users found... Please ensure filters are correct!");
-    }
-    */
 }
+
+
 
 
 </script>
@@ -165,9 +195,7 @@ const query_profiles = async () => {
                             <path
                                 d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z" />
                         </svg>
-                        <ChevronDownIcon :class="open ? 'text-orange-300' : 'text-orange-300/70'"
-                            class="transition duration-150 ease-in-out group-hover:text-orange-300/80"
-                            aria-hidden="true" />
+
                     </PopoverButton>
 
                     <transition enter-active-class="transition duration-200 ease-out"
@@ -176,11 +204,16 @@ const query_profiles = async () => {
                         leave-from-class="translate-y-0 opacity-100" leave-to-class="translate-y-1 opacity-0">
                         <PopoverPanel
                             class="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
-                            <div class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5">
-                                <div class="relative grid gap-8 bg-white p-7 lg:grid-cols-2">
-                                   <input type="checkbox" id="scales" name="scales" checked /> 
+                            <div class="overflow-hidden rounded-lg shadow-xl ring-1 ring-black/5">
+                                <div class="relative grid gap-1 bg-white p-7 grid-cols-2">
+                                    <p>Only show users profiles from: </p>
+                                    <span></span>
+                                    <div v-for="(county, index) in counties" :key="index" class="checkbox">
+                                        <input type="checkbox" :id="county[0]" v-model="county[1]"
+                                            @change="query_profiles">
+                                        <label class="px-1" :for="county[0]">{{ county[0] }}</label>
+                                    </div>
                                 </div>
-
                             </div>
                         </PopoverPanel>
                     </transition>
@@ -190,6 +223,14 @@ const query_profiles = async () => {
     </div>
 
     <div class="grid grid-cols-2 gap-4 place-content-around">
+        <div v-if="!profiles.length && !no_profiles_found">
+            <h1>Fetching Profiles... Please wait</h1>
+            <div class="spinny_loading_circle"></div>
+        </div>
+        <div v-if="no_profiles_found">
+            <h1>No profiles were found, consider adjusting your filters</h1>
+        </div>
+
         <div v-for="prof of profiles">
             <Profile_Card :profile_ID=JSON.parse(prof).profile_ID :profile_thumbnail_url=JSON.parse(prof).profileImage
                 :profile_name=JSON.parse(prof).firstname description="TODO : Add User description field in firestore" />
@@ -198,4 +239,25 @@ const query_profiles = async () => {
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.spinny_loading_circle {
+    border: 16px solid rgb(from color r g b);
+    /* Light grey */
+    border-top: 16px solid lightgreen;
+    border-radius: 100%; /* This makes it like a blade,,, is cool*/
+    width: 8rem;
+    height: 8rem;
+    animation: spin 1s linear infinite;
+}
+
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+</style>
