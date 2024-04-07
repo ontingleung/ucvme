@@ -53,8 +53,10 @@ onMounted(async () => {
 
 <template>
 
+
+
     <!-- TODO: Use firestore to get User name/Title -->
-    <Profile_Title :profile_title="profile_name" :profile_town="Profile_town"/>
+    <Profile_Title :profile_title="profile_name" :profile_town="Profile_town" />
 
     <Profile_Video :video_url="profile_video_url" :poster_url="profile_poster_url" />
 
