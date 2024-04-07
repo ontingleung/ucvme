@@ -28,23 +28,18 @@ const query_profiles = async () => {
 
     console.log("FETCHING FIRST COUPLE PROFILES");
 
-<<<<<<< Updated upstream
-    // Query the first page of docs
-    // const first = query(collection(db, "users"), limit(2), where("firstname", "==", "John"));
-    const first = query(collection(db, "users"), limit(2));
-=======
-    var first: Query;
+    var first;
 
     // Query the first page of docs
     if ((document.getElementById("profile_name") as HTMLInputElement).value.length > 0) {
         // const first = query(collection(db, "users"), limit(2), where("firstname", "==", "John"));
+        // TODO : Make query take the name from the search bar into account
         first = query(collection(db, "users"), limit(2));
     }
     else {
         first = query(collection(db, "users"), limit(2));
     }
     
->>>>>>> Stashed changes
     var profiles_buffer = await getDocs(first);
 
     profiles_buffer.forEach((doc) => {
@@ -77,9 +72,6 @@ const query_profiles = async () => {
 </script>
 
 <template>
-<<<<<<< Updated upstream
-    <h1>This is the Profile Search page!</h1>
-=======
 
     <div class="m-5 p-5 lg:max-w-lg ">
         <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Here's who around.</h2>
@@ -104,7 +96,6 @@ const query_profiles = async () => {
 
 
 
->>>>>>> Stashed changes
     <div class="grid grid-cols-2 gap-4 place-content-around">
         <div v-for="prof of profiles">
             <Profile_Card :profile_ID=JSON.parse(prof).profile_ID :profile_thumbnail_url=JSON.parse(prof).profileImage
