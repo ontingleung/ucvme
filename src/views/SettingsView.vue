@@ -1,48 +1,45 @@
 <template>
-  <div class="max-w-screen-xl mx-auto p-6 bg-white md:rounded-lg settings">
-    <div class="flex flex-col items-center">
-      <h1 class="text-2xl xl:text-3xl font-bold mb-6">
+  <div class="settings-container">
+    <div class="settings-card">
+      <h1 class="settings-header">
         User Settings
       </h1>
-      <div class="w-full max-w-md">
-        <form class="space-y-6" @submit.prevent="updateSettings">
-          <div class="flex flex-col mb-4">
-            <label for="profile-image" class="block text-gray-700 mb-2">Profile Picture</label>
-            <input type="file" id="profile-image" @change="previewImage" accept="image/*">
-            <div v-if="user.profilePicture" class="mt-3">
-              <img :src="user.profilePicture" alt="Profile Image Preview" class="h-20 w-20 object-cover rounded-full">
-            </div>
+      <form class="settings-form" @submit.prevent="updateSettings">
+        <div class="input-group">
+          <label for="profile-image" class="input-label">Profile Picture</label>
+          <input type="file" id="profile-image" @change="previewImage" accept="image/*" class="input-file">
+          <div v-if="user.profilePicture" class="image-preview">
+            <img :src="user.profilePicture" alt="Profile Image Preview" class="image-thumbnail">
           </div>
-          <div>
-            <label class="block text-gray-700">Email</label>
-            <input
-              class="w-full px-4 py-3 rounded-lg bg-gray-100 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-              type="email" placeholder="Email" v-model="user.email">
-          </div>
-          <div>
-            <label class="block text-gray-700">Password</label>
-            <input
-              class="w-full px-4 py-3 rounded-lg bg-gray-100 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-              type="password" placeholder="Password" v-model="user.password">
-          </div>
-          <div>
-            <label class="block text-gray-700">Town</label>
-            <input
-              class="w-full px-4 py-3 rounded-lg bg-gray-100 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-              type="text" placeholder="Town" v-model="user.town">
-          </div>
-          <div>
-            <label class="block text-gray-700">County</label>
-            <input
-              class="w-full px-4 py-3 rounded-lg bg-gray-100 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-              type="text" placeholder="County" v-model="user.county">
-          </div>
-          <button
-            class="w-full block bg-emerald-400 hover:bg-emerald-500 text-white font-semibold rounded-lg px-4 py-3 mt-6">
-            Update
-          </button>
-        </form>
-      </div>
+        </div>
+        <div>
+          <label class="block text-gray-700">Email</label>
+          <input
+            class="w-full px-4 py-3 rounded-lg bg-gray-100 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+            type="email" placeholder="Email" v-model="user.email">
+        </div>
+        <div>
+          <label class="block text-gray-700">Password</label>
+          <input
+            class="w-full px-4 py-3 rounded-lg bg-gray-100 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+            type="password" placeholder="Password" v-model="user.password">
+        </div>
+        <div>
+          <label class="block text-gray-700">Town</label>
+          <input
+            class="w-full px-4 py-3 rounded-lg bg-gray-100 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+            type="text" placeholder="Town" v-model="user.town">
+        </div>
+        <div>
+          <label class="block text-gray-700">County</label>
+          <input
+            class="w-full px-4 py-3 rounded-lg bg-gray-100 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+            type="text" placeholder="County" v-model="user.county">
+        </div>
+        <button class="submit-button">
+          Update
+        </button>
+      </form>
     </div>
   </div>
 </template>
@@ -70,12 +67,107 @@ function previewImage(event) {
 }
 </script>
 
-<style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
+<style scoped>
+.settings-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: #f4f7f6;
+}
+
+.settings-card {
+  width: 100%;
+  max-width: 500px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.settings-header {
+  color: #047857;
+  /* Emerald color */
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-label {
+  color: #1f2937;
+  /* Gray-800 */
+  margin-bottom: 0.5rem;
+}
+
+.input-file {
+  border: 2px solid #d1fae5;
+  /* Light emerald */
+  border-radius: 0.375rem;
+  /* 6px */
+  padding: 0.5rem;
+}
+
+.input-file::file-selector-button {
+  padding: 0.5rem;
+  border: none;
+  background-color: #10b981;
+  /* Emerald */
+  color: white;
+  border-radius: 0.375rem;
+  /* 6px */
+  margin-right: 0.5rem;
+}
+
+.image-preview {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.image-thumbnail {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.submit-button {
+  padding: 0.75rem;
+  background-color: #059669;
+  /* Emerald */
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.375rem;
+  /* 6px */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #047857;
+  /* Darker emerald */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 640px) {
+  .settings-container {
+    padding: 1rem;
+  }
+
+  .settings-card {
+    padding: 1.5rem;
   }
 }
 </style>
