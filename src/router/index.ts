@@ -19,6 +19,11 @@ const router = createRouter({
       component: HomeView
     },
     {
+      path: '/homePage',
+      name: 'homePage',
+      component: () => import('../views/HomePageView.vue')
+    },
+    {
       path: '/signup',
       name: 'signup',
       component: () => import('../views/SignUpView.vue')
@@ -93,7 +98,16 @@ const router = createRouter({
       // },
     },
     {
+      // When NO profile ID is given, redirect to profile search
       path: '/view-profile',
+      name: 'noProfileProvided',
+      component: () => import('../views/ProfileSearchView.vue'),
+      // meta: {
+      //   requireAuth: true,
+      // },
+    },
+    {
+      path: '/view-profile/:profileID',
       name: 'viewProfile',
       component: () => import('../views/ViewProfileView.vue'),
       // meta: {

@@ -11,8 +11,11 @@
     "type-check": "vue-tsc --build --force"
   },
   "dependencies": {
+    "@headlessui/vue": "^1.7.19",
+    "@videojs-player/vue": "^1.0.0",
     "firebase": "^10.8.1",
     "firebase-tools": "^13.4.1",
+    "uuid": "^9.0.1",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
