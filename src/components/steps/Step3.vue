@@ -12,9 +12,7 @@
                 class="flex flex-col rounded-lg border-4 border-dashed w-full h-60 p-10 group text-center cursor-pointer">
                 <div class="h-full w-full text-center flex flex-col items-center justify-center items-center">
                     <div class="flex flex-auto max-h-48 w-2/5 mx-auto -mt-10">
-                        <img class="h-36 object-center"
-                            src="https://firebasestorage.googleapis.com/v0/b/ucvme-global.appspot.com/o/assets%2Fupload.png?alt=media&token=db4c1b88-764b-442a-b253-f9c235148952"
-                            alt="upload">
+                        <img class="h-36 object-center" :src="currentImageUrl" alt="upload">
                     </div>
                     <p class="pointer-none text-gray-500"><span>Drag and drop</span> files here <br />
                         or select a file from your device
@@ -42,17 +40,15 @@ import { v4 as uuidv4 } from 'uuid';
 import { updateDoc, doc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 
-
 function generateUUID() {
     return uuidv4();
 }
 
 const fileInput = ref(null);
-const videoUrl = ref({
-    url: String
-});
+const videoUrl = ref('');
 const isUploadComplete = ref(false);
 let userRef;
+const currentImageUrl = ref("https://firebasestorage.googleapis.com/v0/b/ucvme-global.appspot.com/o/assets%2Fupload.png?alt=media&token=db4c1b88-764b-442a-b253-f9c235148952"); // Initial image URL
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -69,20 +65,19 @@ const uploadVideo = async () => {
     const uniqueID = generateUUID();
     const userVideoRef = storageRef(storage, `userVideos/${uniqueID}.mp4`);
     const metadata = {
-        contentType: 'video/mp4'
+        contentType: 'video/mp4',
     };
     try {
         const snapshot = await uploadBytes(userVideoRef, file, metadata);
         const downloadURL = await getDownloadURL(snapshot.ref);
-        videoUrl.value.url = downloadURL;  
+        videoUrl.value = downloadURL;
         await updateDoc(userRef, {
-            videoUrl: videoUrl.value.url  
+            videoUrl: videoUrl.value,
         });
         isUploadComplete.value = true;
+        currentImageUrl.value = "https://firebasestorage.googleapis.com/v0/b/ucvme-global.appspot.com/o/assets%2Fok.png?alt=media&token=794cccb0-26a1-4623-b4fb-32e58680a7a2";
     } catch (error) {
         console.error('Error uploading video:', error);
     }
-
-
 }
 </script>

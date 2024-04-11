@@ -12,6 +12,7 @@ import { RouterLink, useRoute } from 'vue-router';
             </div>
             <ul class="nav-routes">
               <RouterLink to="/signup">SignUp</RouterLink>
+              <RouterLink to="/login">Login</RouterLink>
               <!-- ><RouterLink to="/homePage">HomePage</RouterLink> -->
                 <!-- <RouterLink to="/">Home</RouterLink>
                 <RouterLink to="/about">About</RouterLink>
