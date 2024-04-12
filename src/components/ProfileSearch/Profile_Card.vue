@@ -15,18 +15,6 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-/*
-export interface Props {
-    profile_ID: string,
-    profile_county: string,
-    profile_town: string,
-    profile_fname: string,
-    profile_lname: string,
-    profile_thumbnail_url: string,
-    profile_description: string
-
-}*/
-
 const props = withDefaults(defineProps<{
     profile_ID: string,
     profile_county: string,
@@ -56,15 +44,6 @@ import('@/assets/default_user_image.png').then(imageImports => {
     }
 
 })
-
-
-/*
-const props = withDefaults(defineProps<Props>(), {
-    profile_fname: "Loading...",
-    profile_lname: "Loading..."
-});*/
-
-
 
 
 
