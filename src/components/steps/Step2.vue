@@ -16,9 +16,9 @@ const userLoc = ref({
 
 <template>
     <div>
-        <h2 class="pt-5 text-base font-semibold leading-7 text-gray-900">Step 2 of 4: Location 📍</h2>
+        <h2 class="pt-5 text-base font-semibold leading-7 text-gray-900">Step 2 of 5: Location 📍</h2>
         <div class="m-1 overflow-hidden rounded-full bg-gray-200">
-            <div class="h-2 w-1/2 rounded-full bg-emerald-400"></div>
+            <div class="h-2 w-2/5 rounded-full bg-emerald-400"></div>
         </div>
         <p class="mt-5 text-md leading-6 text-gray-600">Hello {{ props.firstName }}, 👋🏼 Welcome!</p>
         <p class="text-md leading-6 text-gray-600">Enter your location to get jobs listing close to you.</p>
