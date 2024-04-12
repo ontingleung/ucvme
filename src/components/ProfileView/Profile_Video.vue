@@ -18,8 +18,8 @@ const props = withDefaults(defineProps<{
 
 
 <template>
-    <div class="flex justify-center items-center  ">
-        <div class="video-container rounded-lg overflow-hidden " style="height: 50vh; width: 50%;">
+    <div class="flex justify-center items-center">
+        <div class="video-container rounded-lg overflow-hidden " style="height: 50vh; width: 80%;">
             <video-player 
                 :src="props.video_url" 
                 class="ucvme-theme" 
@@ -43,6 +43,5 @@ const props = withDefaults(defineProps<{
 .ucvme-theme {
 height: 100%;
 width: 100%;
-   /* This makes the video cover the area of the box, adjust as needed */
 }
 </style>

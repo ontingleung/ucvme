@@ -51,18 +51,28 @@ onMounted(async () => {
 
 </script>
 
-<template>
-
-
-
-    <!-- TODO: Use firestore to get User name/Title -->
-    <Profile_Title :profile_title="profile_name" :profile_town="Profile_town" />
-
-    <Profile_Video :video_url="profile_video_url" :poster_url="profile_poster_url" />
-
-    <Text_Block text_string="TODO: Profile Description can be passed here" />
-
-</template>
+  <template>
+    <div class="container mx-auto p-4 flex">
+      <div class="flex flex-col items-center w-1/5 ml-200"> 
+        <div class="border-4 border-dashed rounded-full p-2">
+          <img src="../assets/default_user_image.png" alt="Profile Image" class="rounded-full w-full h-auto object-cover" />
+        </div>
+  
+        <div class="text-center mt-4">
+          <h2 class="text-xl font-bold">{{ profile_name }}</h2>
+          <p class="text-sm">{{ Profile_town }}</p>
+        </div>
+  
+      </div>
+  
+      <div class="w-4/5"> 
+        <Profile_Video :video_url="profile_video_url" :poster_url="profile_poster_url" />
+        <Text_Block text_string="About: Your description here..." />
+      </div>
+    </div>
+  </template>
+  
+  
 
 
 
