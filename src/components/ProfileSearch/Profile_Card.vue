@@ -1,35 +1,80 @@
 <!-- 
-
-This is the card for each Profile when searching 
-
+    
+    This is the card for each Profile when searching 
+    
 -->
-
-
-
 <script setup lang="ts">
 
 
-import { defineProps, withDefaults } from 'vue';
+
+import { profile } from 'console';
+import { defineProps, withDefaults, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-export interface Props {
-    profile_ID: string,
-    profile_thumbnail_url: string,
-    profile_name: string,
-    //profile_subtitle: string,
-    description: string
-}
 
-const props = withDefaults(defineProps<Props>(), {
-    profile_name: "Loading...",
-    profile_subtitle: "Loading... Please wait",
-    description: "Loading description... Please wait"
-});
 
 const router = useRouter();
 
-function GoToProfile(profile_link_to_nav_to: string)
-{
+/*
+export interface Props {
+    profile_ID: string,
+    profile_county: string,
+    profile_town: string,
+    profile_fname: string,
+    profile_lname: string,
+    profile_thumbnail_url: string,
+    profile_description: string
+
+}*/
+
+const props = withDefaults(defineProps<{
+    profile_ID: string,
+    profile_county: string,
+    profile_town: string,
+    profile_fname: string,
+    profile_lname: string,
+    profile_thumbnail_url: string,
+    profile_description: string
+}>(), {
+    profile_ID: "Loading...",
+    profile_county: "Loading...",
+    profile_town: "Loading...",
+    profile_fname: "Loading...",
+    profile_lname: "Loading...",
+    profile_description: "Loading..."
+});
+
+var profile_img = ref()
+
+import('@/assets/default_user_image.png').then(imageImports => {
+
+    if (props.profile_thumbnail_url == "") {
+        profile_img.value = imageImports.default
+    }
+    else {
+        profile_img.value = props.profile_thumbnail_url
+    }
+
+})
+
+
+/*
+const props = withDefaults(defineProps<Props>(), {
+    profile_fname: "Loading...",
+    profile_lname: "Loading..."
+});*/
+
+
+
+
+
+function GoToMessageProfile(profile_link_to_nav_to: string) {
+    router.push(`/messaging`);
+    // router.push(`/messaging/${profile_link_to_nav_to}`); // Need to implement messaging
+}
+
+
+function GoToProfile(profile_link_to_nav_to: string) {
     router.push(`/view-profile/${profile_link_to_nav_to}`);
 }
 
@@ -37,37 +82,43 @@ function GoToProfile(profile_link_to_nav_to: string)
 </script>
 
 <template>
-    <button class="max-w-sm rounded overflow-hidden shadow-lg bg-lime-700"
-        @click="GoToProfile(profile_ID)"  >
-        <img class="w-full" :src="props.profile_thumbnail_url" :alt="props.profile_name">
-        <div class="px-6 py-4">
-            <div class="font-bold text-xl mb-2">{{ props.profile_name }}</div>
-            <p class="text-gray-700 text-base">
-                {{ props.description }}
-            </p>
+
+
+    <button
+        class="grid w-full grid-cols-2 max-h-72 grid-rows-4 auto-rows-auto gap-4 p-4 justify-stretch bg-gradient-to-r from-green-500 to-green-700 rounded-3xl ring-4 ring-black"
+        @click="GoToProfile(profile_ID)">
+
+        <div
+            class=" bg-slate-200 ring-4  ring-black row-span-4 rounded-full grid w-48 h-48 place-content-center text-center">
+            <img :src="profile_img"></img>
         </div>
-        <div class="px-6 pt-4 pb-2">
-            <!--
-            <span
-                class="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{
-                props.profile_subtitle }}
-            </span>
-            -->
-            <button
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="button">
-                Contact {{ props.profile_name.split(' ')[0] }}
-            </button>
-            <button
-                class="ml-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="button">
-                Play video
-            </button>
+        <div class="">
+            <h1 class="font-sans text-green-50 text-3xl font-bold">{{ profile_fname }} {{ profile_lname }}</h1>
+        </div>
+        <div class="pt-4">
+            <p class="font-sans font-bold text-slate-100"> From {{ profile_town }}, {{ profile_county }} </p>
+        </div>
+        <div class=" auto-rows-min mx-0">
+            <div class="py-1 my-1">
+                <button
+                    class="bg-gradient-to-r w-full from-green-300 to-blue-400 hover:from-teal-300 hover:to-green-400 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline ring-2 ring-black rounded-xl"
+                    type="button">
+                    Play video </button>
+            </div>
+            <div class="">
+                <button v-on:click.stop @click="GoToMessageProfile(profile_ID)"
+                    class="bg-gradient-to-r w-full from-green-300 to-teal-500 hover:from-lime-300 hover:to-green-500 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline ring-2 ring-black rounded-xl"
+                    type="button">
+                    Contact {{ profile_fname }}
+                </button>
+            </div>
+        </div>
+        <div class="col-start-1 col-end-3 max-w-prose text-center font-sans backdrop-brightness-125 rounded-3xl  ">
+            {{ profile_description }} 
         </div>
     </button>
 </template>
 
 
 
-<style>
-</style>
+<style></style>
