@@ -50,18 +50,15 @@ var last_searched_name = "";
 
 onMounted(() => {
     query_profiles();
-    setInterval(show_no_results_message, 4000);
+    setInterval(show_no_results_message, 2000);
 });
 
 
-function show_no_results_message()
-{
-    if(profiles.value.length <= 0)
-    {
+function show_no_results_message() {
+    if (profiles.value.length <= 0) {
         no_profiles_found.value = true
     }
-    else
-    {
+    else {
         no_profiles_found.value = false
     }
 }
@@ -106,7 +103,11 @@ const update_profiles = (results_buffer: QuerySnapshot<DocumentData, DocumentDat
         var current_profile_JSON = JSON.parse(current_profile);
         current_profile_JSON["profile_ID"] = doc.id;
 
-        if (profiles.value.includes(doc.id) == false) {
+        if (current_profile_JSON["surname"] === "" || current_profile_JSON["firstname"] === "") {
+            console.debug("Invalid user encountered ID : " + current_profile_JSON["profile_ID"]);
+        }
+
+        else if (profiles.value.includes(doc.id) == false) {
             profiles.value.push(JSON.stringify(current_profile_JSON));
             console.debug("Pushed " + JSON.stringify(current_profile_JSON) + " onto profile list");
         }
@@ -168,85 +169,100 @@ const query_profiles = async () => {
     }
 }
 
-
-
-
 </script>
 
 
 <template>
 
+    <div class="p-5 grid grid-cols-2">
+        <div class="mx-auto bg-gradient-to-r from-green-200 to-green-100 rounded-2xl col-span-2 lg:px-28 md:px-16 sm:px-4 py-16 my-16">
+            <h2 class="text-3xl font-bold tracking-tight text-gray-600 sm:text-4xl">Here's who around!</h2>
+            <p class="mt-4 text-lg leading-8 text-gray-600">You can specify filters here</p>
+            <div class="mt-6 flex max-w-md gap-x-4 ">
+                <input id="profile_name" type="text" v-on:input="query_profiles"
+                    class=" min-w-0 flex-auto rounded-xl border-0 text-xl bg-slate-50  ring-black px-3.5 py-2  shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-green-500 sm:text-md sm:leading-6"
+                    placeholder="John Doe">
 
-    <div class="m-5 p-5 lg:max-w-lg ">
-        <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Here's who around.</h2>
-        <p class="mt-4 text-lg leading-8 text-gray-600">You can specify filters</p>
-        <div class="mt-6 flex max-w-md gap-x-4">
-            <input id="profile_name" type="text" v-on:input="query_profiles"
-                class="min-w-0 flex-auto rounded-md border-0 bg-white/5 px-3.5 py-2  shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-green-500 sm:text-sm sm:leading-6"
-                placeholder="John Doe">
+                <!-- Filter -->
+                <div class="top-16 w-50  px-4 mx-5">
+                    <Popover v-slot="{ open }" class="relative">
+                        <PopoverButton :class="open ? 'text-white' : 'text-white/90'"
+                            class="group inline-flex items-center rounded-xl bg-green-600 p-2  font-medium hover:text-green focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                                class="bi bi-funnel" viewBox="0 0 16 16">
+                                <path
+                                    d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z" />
+                            </svg>
 
-            <!-- Filter -->
-            <div class="top-16 w-50  px-4 mx-5">
-                <Popover v-slot="{ open }" class="relative">
-                    <PopoverButton :class="open ? 'text-white' : 'text-white/90'"
-                        class="group inline-flex items-center rounded-md bg-green-700 p-2  font-medium hover:text-green focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
-                            class="bi bi-funnel" viewBox="0 0 16 16">
-                            <path
-                                d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z" />
-                        </svg>
+                        </PopoverButton>
 
-                    </PopoverButton>
-
-                    <transition enter-active-class="transition duration-200 ease-out"
-                        enter-from-class="translate-y-1 opacity-0" enter-to-class="translate-y-0 opacity-100"
-                        leave-active-class="transition duration-150 ease-in"
-                        leave-from-class="translate-y-0 opacity-100" leave-to-class="translate-y-1 opacity-0">
-                        <PopoverPanel
-                            class="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
-                            <div class="overflow-hidden rounded-lg shadow-xl ring-1 ring-black/5">
-                                <div class="relative grid gap-1 bg-white p-7 grid-cols-2">
-                                    <p>Only show users profiles from: </p>
-                                    <span></span>
-                                    <div v-for="(county, index) in counties" :key="index" class="checkbox">
-                                        <input type="checkbox" :id="county[0]" v-model="county[1]"
-                                            @change="query_profiles">
-                                        <label class="px-1" :for="county[0]">{{ county[0] }}</label>
+                        <transition enter-active-class="transition duration-200 ease-out"
+                            enter-from-class="translate-y-1 opacity-0" enter-to-class="translate-y-0 opacity-100"
+                            leave-active-class="transition duration-150 ease-in"
+                            leave-from-class="translate-y-0 opacity-100" leave-to-class="translate-y-1 opacity-0">
+                            <PopoverPanel
+                                class="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
+                                <div class="overflow-hidden rounded-lg shadow-xl ring-1 ring-black/5">
+                                    <div class="relative grid gap-1 bg-white p-7 grid-cols-2">
+                                        <h1 class="font-sans font-medium text-lg ">Only show users profiles from: </h1>
+                                        <span></span>
+                                        <div v-for="(county, index) in counties" :key="index" class="checkbox">
+                                            <input type="checkbox" :id="county[0]" v-model="county[1]"
+                                                @change="query_profiles">
+                                            <label class="px-1" :for="county[0]">{{ county[0] }}</label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </PopoverPanel>
-                    </transition>
-                </Popover>
+                            </PopoverPanel>
+                        </transition>
+                    </Popover>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="grid grid-cols-2 gap-4 place-content-around">
-        <div v-if="!profiles.length && !no_profiles_found">
-            <h1>Fetching Profiles... Please wait</h1>
-            <div class="spinny_loading_circle"></div>
-        </div>
-        <div v-if="no_profiles_found">
-            <h1>No profiles were found, consider adjusting your filters</h1>
-        </div>
+        <div class="  2xl:px-72 xl:px-10 lg:px-48 md:px-32 sm:px-0 mx-5 grid xl:grid-cols-2 lg:grid-cols-1 justify-stretch col-span-2 gap-36 ">
+            <div v-if="!profiles.length && !no_profiles_found">
+                <h1>Fetching Profiles... Please wait</h1>
+                <div class="spinny_loading_circle" id="loading_circle"></div>
+            </div>
+            <div v-if="no_profiles_found">
+                <h1>No profiles were found, consider adjusting your filters</h1>
+            </div>
 
-        <div v-for="prof of profiles">
-            <Profile_Card :profile_ID=JSON.parse(prof).profile_ID :profile_thumbnail_url=JSON.parse(prof).profileImage
-                :profile_name=JSON.parse(prof).firstname description="TODO : Add User description field in firestore" />
+            <div v-for="prof of profiles">
+                <Profile_Card 
+                :profile_ID     =   JSON.parse(prof).profile_ID
+                :profile_county =   JSON.parse(prof).county
+                :profile_town   =   JSON.parse(prof).town
+                :profile_fname  =   JSON.parse(prof).firstname
+                :profile_lname  =   JSON.parse(prof).surname
+                :profile_thumbnail_url  =   JSON.parse(prof).profileImage
+                profile_description = ""
+                />
+                <!--description="TODO : Add User description field in firestore" -->
 
+            </div>
         </div>
     </div>
 </template>
 
 <style scoped>
+
+
+
+
 .spinny_loading_circle {
     border: 16px solid rgb(from color r g b);
     /* Light grey */
     border-top: 16px solid lightgreen;
-    border-radius: 100%; /* This makes it like a blade,,, is cool*/
+    border-radius: 100%;
+    /* This makes it like a blade,,, is cool*/
     width: 8rem;
     height: 8rem;
+    display: grid;
+    align-items: center;
+    place-content: center;
+    place-items: center;
     animation: spin 1s linear infinite;
 }
 
