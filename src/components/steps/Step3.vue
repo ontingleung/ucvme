@@ -1,8 +1,8 @@
 <template>
     <div>
-      <h2 class="pt-5 text-base font-semibold leading-7 text-gray-900">Step 3 of 5: Tell Us More About Yourself!</h2>
+      <h2 class="pt-5 text-base font-semibold leading-7 text-gray-900">Step 3 of 6: Tell Us More About Yourself!</h2>
       <div class="m-1 overflow-hidden rounded-full bg-gray-200">
-          <div class="h-2 w-3/5 rounded-full bg-emerald-500"></div>
+          <div class="h-2 w-3/6 rounded-full bg-emerald-500"></div>
       </div>
   
       <p class="mt-5 text-md leading-6 text-gray-600">Upload your profile picture and share something about yourself.</p>
@@ -33,7 +33,7 @@
       </div>
   
       <div class="flex justify-between mt-10">
-          <button @click="$emit('next', 2)" class="bg-gray-500 text-white py-2 px-4 rounded-full">Previous</button>
+          <button @click="$emit('next', 1)" class="bg-gray-500 text-white py-2 px-4 rounded-full">Previous</button>
           <button @click="submitStep, $emit('next', 3);" class="bg-emerald-500 text-white py-2 px-4 rounded-full">Next</button>
       </div>
     </div>

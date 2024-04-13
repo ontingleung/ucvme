@@ -20,6 +20,8 @@ import Step2 from '@/components/steps/Step2.vue';
 import Step3 from '@/components/steps/Step3.vue';
 import Step4 from '@/components/steps/Step4.vue';
 import Step5 from '@/components/steps/Step5.vue';
+import Step6 from '@/components/steps/Step6.vue';
+
 
 const currentStep = ref(0);
 let userRef;
@@ -44,6 +46,7 @@ const steps = [
   { number: 2, component: Step3 },
   { number: 3, component: Step4 },
   { number: 4, component: Step5 },
+  { number: 5, component: Step6 },
 ];
 
 const currentStepComponent = computed(() => {

@@ -1,83 +1,95 @@
 <template>
-    <div>
-        <h2 class="pt-5 text-base font-semibold leading-7 text-gray-900">Step 4 of 5: Snapshot Video 🎬</h2>
-        <div class="m-1 overflow-hidden rounded-full bg-gray-200">
-            <div class="h-2 w-4/5 rounded-full bg-emerald-500"></div>
-        </div>
-
-        <p class="mt-5 text-md leading-6 text-gray-600">Upload a video up to 1 minute long talking about yourself!</p>
-
-        <div class="mt-5 flex items-center justify-center w-full">
-            <label for="fileInput"
-                class="flex flex-col rounded-lg border-4 border-dashed w-full h-60 p-10 group text-center cursor-pointer">
-                <div class="h-full w-full text-center flex flex-col items-center justify-center items-center">
-                    <div class="flex flex-auto max-h-48 w-2/5 mx-auto -mt-10">
-                        <img class="h-36 object-center" :src="currentImageUrl" alt="upload">
-                    </div>
-                    <p class="pointer-none text-gray-500"><span>Drag and drop</span> files here <br />
-                        or select a file from your device
-                    </p>
-                </div>
-                <input id="fileInput" ref="fileInput" type="file" class="hidden" @change="uploadVideo">
-            </label>
-        </div>
-
-
-        <div class="flex justify-between mt-10">
-            <button @click="$emit('next', 2)" class="bg-gray-500 text-white py-2 px-4 rounded-full">Previous</button>
-            <button @click="$emit('next', 4)" :disabled="!isUploadComplete"
-                :class="{ 'bg-emerald-500': isUploadComplete, 'bg-red-500': !isUploadComplete }"
-                class="text-white py-2 px-4 rounded-full">Next</button>
-        </div>
+  <div>
+    <h2 class="pt-5 text-base font-semibold leading-7 text-gray-900">Step 4 of 6: Your Experience and Education</h2>
+    <div class="m-1 overflow-hidden rounded-full bg-gray-200">
+      <div class="h-2 w-4/5 rounded-full bg-emerald-500"></div>
     </div>
+
+    <div class="mt-5">
+      <h3 class="text-lg font-medium leading-6 text-gray-900">Work Experience</h3>
+      <div v-for="(work, index) in workExperiences" :key="'work-' + index">
+        <div class="mt-3">
+          <label for="jobTitle" class="block text-sm font-medium text-gray-700">Job Title</label>
+          <input id="jobTitle" type="text" required class="mt-1 block w-full px-3 py-2 bg-white shadow-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="work.jobTitle">
+        </div>
+        <div class="mt-3">
+          <label for="companyName" class="block text-sm font-medium text-gray-700">Company Name</label>
+          <input id="companyName" type="text" required class="mt-1 block w-full px-3 py-2 bg-white shadow-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="work.companyName">
+        </div>
+        <div class="mt-3">
+          <label for="jobDuration" class="block text-sm font-medium text-gray-700">Duration</label>
+          <input id="jobDuration" type="text" required class="mt-1 block w-full px-3 py-2 bg-white shadow-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="work.jobDuration">
+        </div>
+      </div>
+      <button class="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" @click="addWorkExperience">Add Work Experience</button>
+    </div>
+
+    <div class="mt-5">
+      <h3 class="text-lg font-medium leading-6 text-gray-900">Education</h3>
+      <div v-for="(education, index) in educations" :key="'education-' + index">
+        <div class="mt-3">
+          <label for="schoolName" class="block text-sm font-medium text-gray-700">School Name</label>
+          <input id="schoolName" type="text" required class="mt-1 block w-full px-3 py-2 bg-white shadow-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="education.schoolName">
+        </div>
+        <div class="mt-3">
+          <label for="degree" class="block text-sm font-medium text-gray-700">Degree</label>
+          <input id="degree" type="text" required class="mt-1 block w-full px-3 py-2 bg-white shadow-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="education.degree">
+        </div>
+        <div class="mt-3">
+          <label for="yearsAttended" class="block text-sm font-medium text-gray-700">Years Attended</label>
+          <input id="yearsAttended" type="text" required class="mt-1 block w-full px-3 py-2 bg-white shadow-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="education.yearsAttended">
+        </div>
+      </div>
+      <button class="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" @click="addEducation">Add Education</button>
+    </div>
+
+    <div class="flex justify-between mt-10">
+      <button @click="$emit('next', 2)" class="bg-gray-500 text-white py-2 px-4 rounded-full">Previous</button>
+      <button @click="saveExperiences, $emit('next', 4);" class="bg-emerald-500 text-white py-2 px-4 rounded-full">Next</button>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { storage, auth, db } from '@/firebase';
-import { ref as storageRef, uploadBytes, getDownloadURL } from "@firebase/storage";
-import { v4 as uuidv4 } from 'uuid';
-import { updateDoc, doc } from 'firebase/firestore';
+import { ref, reactive } from 'vue';
+import { db, auth } from '@/firebase';
+import { addDoc, collection, updateDoc, doc  } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 
-function generateUUID() {
-    return uuidv4();
-}
-
-const fileInput = ref(null);
-const videoUrl = ref('');
-const isUploadComplete = ref(false);
 let userRef;
-const currentImageUrl = ref("https://firebasestorage.googleapis.com/v0/b/ucvme-global.appspot.com/o/assets%2Fupload.png?alt=media&token=db4c1b88-764b-442a-b253-f9c235148952"); // Initial image URL
+const workExperiences = reactive([{ jobTitle: '', companyName: '', jobDuration: '' }]);
+const educations = reactive([{ schoolName: '', degree: '', yearsAttended: '' }]);
 
 onAuthStateChanged(auth, (user) => {
-    if (user) {
-        const currentUserUid = user.uid;
-        userRef = doc(db, "users", currentUserUid);
-    } else {
-        console.log("No user is signed in.");
-    }
+  if (user) {
+    userRef =  doc(db, "users", user.uid);
+  } else {
+    console.log("No user is signed in.");
+  }
 });
 
-const uploadVideo = async () => {
-    const file = fileInput.value.files[0];
-    if (!file) return;
-    const uniqueID = generateUUID();
-    const userVideoRef = storageRef(storage, `userVideos/${uniqueID}.mp4`);
-    const metadata = {
-        contentType: 'video/mp4',
-    };
-    try {
-        const snapshot = await uploadBytes(userVideoRef, file, metadata);
-        const downloadURL = await getDownloadURL(snapshot.ref);
-        videoUrl.value = downloadURL;
-        await updateDoc(userRef, {
-            videoUrl: videoUrl.value,
-        });
-        isUploadComplete.value = true;
-        currentImageUrl.value = "https://firebasestorage.googleapis.com/v0/b/ucvme-global.appspot.com/o/assets%2Fok.png?alt=media&token=794cccb0-26a1-4623-b4fb-32e58680a7a2";
-    } catch (error) {
-        console.error('Error uploading video:', error);
+const addWorkExperience = () => {
+  workExperiences.push({ jobTitle: '', companyName: '', jobDuration: '' });
+};
+
+const addEducation = () => {
+  educations.push({ schoolName: '', degree: '', yearsAttended: '' });
+};
+
+const saveExperiences = async () => {
+  try {
+    for (const work of workExperiences) {
+      if (work.jobTitle && work.companyName && work.jobDuration) {
+        await addDoc(collection(userRef, 'experience'), { ...work, type: 'work' });
+      }
     }
-}
+    for (const education of educations) {
+      if (education.schoolName && education.degree && education.yearsAttended) {
+        await addDoc(collection(userRef, 'experience'), { ...education, type: 'education' });
+      }
+    }
+  } catch (error) {
+    console.error('Error saving experiences:', error);
+  }
+};
 </script>
