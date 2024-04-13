@@ -113,6 +113,11 @@ const router = createRouter({
       // meta: {
       //   requireAuth: true,
       // },
+    },
+    {
+      path: '/:profileID/create-job-listing',
+      name: 'create-job',
+      component: () => import('../views/ListingCreationView.vue'),
     }
   ]
 })
