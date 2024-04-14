@@ -39,6 +39,8 @@ const firstName = ref("");
 const lastName = ref("");
 const town = ref("");
 const county = ref("Pick");
+const aboutMe = ref("");
+const tags = ref("");
 
 const steps = [
   { number: 0, component: Step1 },
@@ -76,6 +78,24 @@ const updateData = async (step, data) => {
         county: county.value
       });
 
+      break;
+    
+      case 3:
+      aboutMe.value = data.aboutMe
+      tags.value = data.tags
+      
+      await updateDoc(userRef, {
+        aboutMe: aboutMe.value,
+        tags: tags.value.split(',').map(tag => tag.trim())
+      });
+
+      break;
+
+      case 4:
+      await updateDoc(userRef, {
+        workExperiences: data.workExperiences,
+        educations: data.educations
+      });
       break;
 
     default:

@@ -23,18 +23,18 @@
       <div class="mt-5">
           <label for="aboutMe" class="block text-sm font-medium text-gray-700">About Me</label>
           <div class="mt-1">
-            <textarea id="aboutMe" rows="3" class="shadow-sm mt-1 block w-full sm:text-sm border border-gray-300 rounded-md" placeholder="Share something about yourself..." v-model="aboutMe"></textarea>
+            <textarea id="aboutMe" rows="3" class="shadow-sm mt-1 block w-full sm:text-sm border border-gray-300 rounded-md" placeholder="Share something about yourself..." v-model="about.aboutMe"></textarea>
           </div>
       </div>
   
       <div class="mt-5">
           <label for="tags" class="block text-sm font-medium text-gray-700">Tags (e.g., gardener, painter, developer)</label>
-          <input id="tags" type="text" class="shadow-sm mt-1 block w-full sm:text-sm border border-gray-300 rounded-md" placeholder="Add your tags separated by commas" v-model="tags">
+          <input id="tags" type="text" class="shadow-sm mt-1 block w-full sm:text-sm border border-gray-300 rounded-md" placeholder="Add your tags separated by commas" v-model="about.tags">
       </div>
   
       <div class="flex justify-between mt-10">
           <button @click="$emit('next', 1)" class="bg-gray-500 text-white py-2 px-4 rounded-full">Previous</button>
-          <button @click="submitStep, $emit('next', 3);" class="bg-emerald-500 text-white py-2 px-4 rounded-full">Next</button>
+          <button @click="$emit('next', 3), $emit('update', 3, about)" class="bg-emerald-500 text-white py-2 px-4 rounded-full">Next</button>
       </div>
     </div>
   </template>
@@ -49,8 +49,10 @@
   
   const profilePictureInput = ref(null);
   const currentProfileImageUrl = ref("https://firebasestorage.googleapis.com/v0/b/ucvme-global.appspot.com/o/assets%2Fupload.png?alt=media&token=db4c1b88-764b-442a-b253-f9c235148952");
-  const aboutMe = ref('');
-  const tags = ref('');
+  const about = ref({
+    aboutMe: '',
+    tags: ''
+  });
   let userRef;
   
   onAuthStateChanged(auth, (user) => {
@@ -78,11 +80,5 @@
       }
   };
   
-  const submitStep = async () => {
-      await updateDoc(userRef, {
-          aboutMe: aboutMe.value,
-          tags: tags.value.split(',').map(tag => tag.trim()),
-      });
-  };
   </script>
   
