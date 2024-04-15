@@ -122,7 +122,7 @@ function GoToProfile(profile_link_to_nav_to: string) {
                 </button>
             </div>
         </div>
-        <div class="col-start-1 flex-initial font-bold max-h-14  text-slate-100 col-end-3 max-w  text-center font-sans backdrop-brightness-50 rounded-3xl  ">
+        <div class="col-start-1 flex-initial px-1 font-bold max-h-14  text-slate-100 col-end-3 max-w  text-center font-sans backdrop-brightness-50 rounded-3xl  ">
             {{ profile_desc_truncated }}
         </div>
     </button>

@@ -19,15 +19,16 @@ const props = withDefaults(defineProps<{
 
 <template>
     <div class="flex justify-center items-center">
-        <div class="video-container rounded-lg overflow-hidden " style="height: 50vh; width: 80%;">
+        <div class="video-container rounded-full w-50 h-50 overflow-hidden " style="height: 380px; width: 70%;">
             <video-player 
                 :src="props.video_url" 
-                class="ucvme-theme" 
+                class="video-js  ucvme-theme" 
                 :poster="props.poster_url" 
                 controls
+               
                 :enableDocumentPictureInPicture="false" 
                 :loop="true" 
-                :autoplay="true" 
+                :autoplay="false" 
                 :volume="0.6" />
         </div>
     </div>
