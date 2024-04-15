@@ -16,7 +16,12 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: () => import('../views/HomePageView.vue')
+    },
+    {
+      path: '/homePage',
+      name: 'homePage',
+      component: () => import('../views/HomePageView.vue')
     },
     {
       path: '/signup',
@@ -108,6 +113,11 @@ const router = createRouter({
       // meta: {
       //   requireAuth: true,
       // },
+    },
+    {
+      path: '/:profileID/create-job-listing',
+      name: 'create-job',
+      component: () => import('../views/ListingCreationView.vue'),
     }
   ]
 })

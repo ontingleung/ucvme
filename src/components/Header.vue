@@ -6,12 +6,14 @@ import { RouterLink, useRoute } from 'vue-router';
     <header>
         <nav class="container">
             <div class="logo">
-                <h1>UVCME</h1>
-                <RouterLink to="/">
+              <RouterLink to="/homePage">
+                  <h1>UVCME</h1>
                 </RouterLink>
             </div>
             <ul class="nav-routes">
               <RouterLink to="/signup">SignUp</RouterLink>
+              <RouterLink to="/login">Login</RouterLink>
+              <!-- ><RouterLink to="/homePage">HomePage</RouterLink> -->
                 <!-- <RouterLink to="/">Home</RouterLink>
                 <RouterLink to="/about">About</RouterLink>
                 <router-link to="/listing-creation">Listing Creation</router-link>

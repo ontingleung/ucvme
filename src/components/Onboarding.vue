@@ -19,6 +19,9 @@ import Step1 from '@/components/steps/Step1.vue';
 import Step2 from '@/components/steps/Step2.vue';
 import Step3 from '@/components/steps/Step3.vue';
 import Step4 from '@/components/steps/Step4.vue';
+import Step5 from '@/components/steps/Step5.vue';
+import Step6 from '@/components/steps/Step6.vue';
+
 
 const currentStep = ref(0);
 let userRef;
@@ -36,12 +39,16 @@ const firstName = ref("");
 const lastName = ref("");
 const town = ref("");
 const county = ref("Pick");
+const aboutMe = ref("");
+const tags = ref("");
 
 const steps = [
   { number: 0, component: Step1 },
   { number: 1, component: Step2 },
   { number: 2, component: Step3 },
   { number: 3, component: Step4 },
+  { number: 4, component: Step5 },
+  { number: 5, component: Step6 },
 ];
 
 const currentStepComponent = computed(() => {
@@ -71,6 +78,24 @@ const updateData = async (step, data) => {
         county: county.value
       });
 
+      break;
+    
+      case 3:
+      aboutMe.value = data.aboutMe
+      tags.value = data.tags
+      
+      await updateDoc(userRef, {
+        aboutMe: aboutMe.value,
+        tags: tags.value.split(',').map(tag => tag.trim())
+      });
+
+      break;
+
+      case 4:
+      await updateDoc(userRef, {
+        workExperiences: data.workExperiences,
+        educations: data.educations
+      });
       break;
 
     default:
