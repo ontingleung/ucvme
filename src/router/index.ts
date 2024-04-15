@@ -118,6 +118,12 @@ const router = createRouter({
       path: '/:profileID/create-job-listing',
       name: 'create-job',
       component: () => import('../views/ListingCreationView.vue'),
+    },
+    {
+      // When NO profile ID is given, redirect to profile search
+      path: '/view-listings',
+      name: 'noListingProvided',
+      component: () => import('../views/JobSearchView.vue')
     }
   ]
 })
