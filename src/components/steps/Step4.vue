@@ -11,15 +11,15 @@
       <div v-for="(work, index) in workExperiences" :key="'work-' + index">
         <div class="mt-3">
           <label class="block text-sm font-medium text-gray-700">Job Title</label>
-          <input type="text" required class="mt-1 block w-full px-3 py-2 bg-white shadow-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="work.jobTitle">
+          <input type="text" required class="mt-1 block w-full px-3 py-2 bg-white shadow-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="work.jobTitle" placeholder="Painter">
         </div>
         <div class="mt-3">
           <label class="block text-sm font-medium text-gray-700">Company Name</label>
-          <input type="text" required class="mt-1 block w-full px-3 py-2 bg-white shadow-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="work.companyName">
+          <input type="text" required class="mt-1 block w-full px-3 py-2 bg-white shadow-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="work.companyName" placeholder="Self-Employed">
         </div>
         <div class="mt-3">
           <label class="block text-sm font-medium text-gray-700">Duration</label>
-          <input type="text" required class="mt-1 block w-full px-3 py-2 bg-white shadow-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="work.jobDuration">
+          <input type="text" required class="mt-1 block w-full px-3 py-2 bg-white shadow-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="work.jobDuration" placeholder="2020 - 2023">
         </div>
       </div>
       <button class="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" @click="addWorkExperience">Add Work Experience</button>
@@ -31,15 +31,15 @@
       <div v-for="(education, index) in educations" :key="'education-' + index">
         <div class="mt-3">
           <label class="block text-sm font-medium text-gray-700">School Name</label>
-          <input type="text" required class="mt-1 block w-full px-3 py-2 bg-white shadow-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="education.schoolName">
+          <input type="text" required class="mt-1 block w-full px-3 py-2 bg-white shadow-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="education.schoolName" placeholder="Insitution name">
         </div>
         <div class="mt-3">
           <label class="block text-sm font-medium text-gray-700">Degree</label>
-          <input type="text" required class="mt-1 block w-full px-3 py-2 bg-white shadow-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="education.degree">
+          <input type="text" required class="mt-1 block w-full px-3 py-2 bg-white shadow-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="education.degree" placeholder="Eg. Diploma">
         </div>
         <div class="mt-3">
           <label class="block text-sm font-medium text-gray-700">Years Attended</label>
-          <input type="text" required class="mt-1 block w-full px-3 py-2 bg-white shadow-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="education.yearsAttended">
+          <input type="text" required class="mt-1 block w-full px-3 py-2 bg-white shadow-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="education.yearsAttended" placeholder="2015 - 2020">
         </div>
       </div>
       <button class="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" @click="addEducation">Add Education</button>

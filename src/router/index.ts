@@ -37,9 +37,9 @@ const router = createRouter({
       path: '/profilecreation/new',
       name: 'accountCreation',
       component: () => import('../views/AccountCreationView.vue'),
-      // meta: {
-      //   requireAuth: true,
-      // },
+      meta: {
+        requireAuth: true,
+      },
     },
     {
       path: '/about',
@@ -53,66 +53,63 @@ const router = createRouter({
       path: '/listing-creation',
       name: 'listingCreation',
       component: () => import('../views/ListingCreationView.vue'),
-      // meta: {
-      //   requireAuth: true,
-      // },
+      meta: {
+        requireAuth: true,
+      },
     },
     {
       path: '/messaging',
       name: 'messaging',
       component: () => import('../views/MessagingView.vue'),
-      // meta: {
-      //   requireAuth: true,
-      // },
+      meta: {
+        requireAuth: true,
+      },
     },
     {
       path: '/profile-edit',
       name: 'profileEdit',
       component: () => import('../views/ProfileEditView.vue'),
-      // meta: {
-      //   requireAuth: true,
-      // },
+      meta: {
+        requireAuth: true,
+      },
     },
     {
       path: '/profile-search',
       name: 'profileSearch',
       component: () => import('../views/ProfileSearchView.vue'),
-      // meta: {
-      //   requireAuth: true,
-      // },
+      meta: {
+        requireAuth: true,
+      },
     },
     {
       path: '/search-listings',
       name: 'searchListings',
       component: () => import('../views/SearchListingsView.vue'),
-      // meta: {
-      //   requireAuth: true,
-      // },
+      meta: {
+        requireAuth: true,
+      },
     },
     {
       path: '/settings',
       name: 'settings',
       component: () => import('../views/SettingsView.vue'),
-      // meta: {
-      //   requireAuth: true,
-      // },
+      meta: {
+        requireAuth: true,
+      },
     },
     {
       // When NO profile ID is given, redirect to profile search
       path: '/view-profile',
       name: 'noProfileProvided',
       component: () => import('../views/ProfileSearchView.vue'),
-      // meta: {
-      //   requireAuth: true,
-      // },
+      meta: {
+        requireAuth: true,
+      },
     },
     {
       path: '/view-profile/:profileID',
       name: 'viewProfile',
       component: () => import('../views/ViewProfileView.vue'),
-      // meta: {
-      //   requireAuth: true,
-      // },
     },
     {
       path: '/:profileID/create-job-listing',
@@ -129,29 +126,29 @@ const router = createRouter({
 })
 
 
-// const getCurrentUser = () => {
-//   return new Promise((resolve, reject) => {
-//     const removeListener = onAuthStateChanged(
-//       auth,
-//       (user) => {
-//         removeListener();
-//         resolve(user);
-//       },
-//       reject
-//     );
-//   })
-// };
+const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const removeListener = onAuthStateChanged(
+      auth,
+      (user) => {
+        removeListener();
+        resolve(user);
+      },
+      reject
+    );
+  })
+};
 
-// router.beforeEach(async (to, from, next) => {
-//   if(to.matched.some((record) => record.meta.requireAuth)) {
-//     if (await getCurrentUser()) {
-//       next();
-//     } else {
-//       next('/')
-//     }
-//   } else {
-//     next()
-//   }
-// });
+router.beforeEach(async (to, from, next) => {
+  if(to.matched.some((record) => record.meta.requireAuth)) {
+    if (await getCurrentUser()) {
+      next();
+    } else {
+      next('/')
+    }
+  } else {
+    next()
+  }
+});
 
 export default router
