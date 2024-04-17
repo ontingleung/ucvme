@@ -18,7 +18,7 @@
                         or select a file from your device
                     </p>
                 </div>
-                <input id="fileInput" ref="fileInput" type="file" class="hidden" @change="uploadVideo">
+                <input id="fileInput" ref="fileInput" type="file" accept="video/*" class="hidden" @change="uploadVideo">
             </label>
         </div>
 
