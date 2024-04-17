@@ -31,12 +31,12 @@ function toggleMenu() {
         </RouterLink>
       </div>
       <div class="navigation">
-        <ul class="nav-routes">
+        <ul class="nav-routes mr-2">
           <li v-if="!user">
-            <RouterLink to="/signup" @click.native="toggleMenu">SignUp</RouterLink>
+            <RouterLink to="/signup">SignUp</RouterLink>
           </li>
           <li v-if="!user">
-            <RouterLink to="/login" @click.native="toggleMenu">Login</RouterLink>
+            <RouterLink to="/login">Login</RouterLink>
           </li>
         </ul>
         <div class="menu-container">

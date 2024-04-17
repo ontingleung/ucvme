@@ -8,6 +8,7 @@
                 <div class="w-full flex-1 mt-8">
                     <div class="flex flex-col items-center">
                         <button
+                            @click="googleSignUp"
                             class="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-emerald-300 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
                             <div class="bg-white p-2 rounded-full">
                                 <svg class="w-4" viewBox="0 0 533.5 544.3">
@@ -123,9 +124,29 @@ const signup = () => {
     });
 };
 
-const googleSignUp = () => {
+const googleSignUp = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        
+        // Check if user document exists, create if not
+        const userRef = doc(db, 'users', user.uid);
+        const userProfile = {
+            email: user.email,
+            profileImage: user.photoURL || "",
+            // Additional fields you might want to sync
+        };
 
+        // Use setDoc with merge true to avoid overwriting existing fields
+        await setDoc(userRef, userProfile, { merge: true });
+        console.log("Google sign-up and document setup complete");
+        router.push('/profilecreation/new'); // Redirect or handle post-signup flow
+    } catch (error) {
+        alert("Failed to sign up with Google: " + error.message);
+    }
 };
+
 
 </script>
 
