@@ -170,12 +170,12 @@ const query_listings = async () => {
 
     <div class="p-5 grid grid-cols-2">
         <div class="mx-auto bg-gradient-to-r from-green-200 to-green-100 rounded-2xl col-span-2 lg:px-28 md:px-16 sm:px-4 py-16 my-16">
-            <h2 class="text-3xl font-bold tracking-tight text-gray-600 sm:text-4xl">Here's who around!</h2>
+            <h2 class="text-3xl font-bold tracking-tight text-gray-600 sm:text-4xl">Find the Perfect Job for YOU!!</h2>
             <p class="mt-4 text-lg leading-8 text-gray-600">You can specify filters here</p>
             <div class="mt-6 flex max-w-md gap-x-4 ">
                 <input id="job_title_search" type="text" v-on:input="query_listings"
                     class=" min-w-0 flex-auto rounded-xl border-0 text-xl bg-slate-50  ring-black px-3.5 py-2  shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-green-500 sm:text-md sm:leading-6"
-                    placeholder="Gardener">
+                    placeholder="Type here...">
 
                 <!-- Filter -->
                 <div class="top-16 w-50  px-4 mx-5">
