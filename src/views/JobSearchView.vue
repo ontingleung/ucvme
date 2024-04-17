@@ -224,15 +224,13 @@ const query_listings = async () => {
             </div>
 
             <div v-for="job of listings">
-                <Profile_Card 
+                <Job_Card 
                 :job_ID     =   JSON.parse(job).job_ID
                 :job_county =   JSON.parse(job).county
-                :job_town   =   JSON.parse(job).town
-                :job_author  =   JSON.parse(job).author
-                :job_title  =   JSON.parse(job).title
-                job_description = ""
+                :job_author  =   JSON.parse(job).job_author
+                :job_title  =   JSON.parse(job).job_title
+                :job_description = JSON.parse(job).job_description
                 />
-                <!--description="TODO : Add User description field in firestore" -->
 
             </div>
         </div>
