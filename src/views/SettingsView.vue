@@ -45,27 +45,57 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { auth, db } from '@/firebase';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const user = ref({
   email: '',
   password: '',
   town: '',
   county: '',
-  profilePicture: null // im assuming url
+  profilePicture: null
 });
 
-function updateSettings() {
-  // Update logic here
-  console.log('Settings updated:', user.value);
+onMounted(() => {
+  onAuthStateChanged(auth, async (authUser) => {
+    if (authUser) {
+      const userRef = doc(db, "users", authUser.uid);
+      const userSnap = await getDoc(userRef);
+      if (userSnap.exists()) {
+        user.value = userSnap.data();
+      } else {
+        console.error("No such document!");
+      }
+    } else {
+      console.log("No user is signed in.");
+    }
+  });
+});
+
+async function updateSettings() {
+  const authUser = auth.currentUser;
+  if (authUser) {
+    const userRef = doc(db, "users", authUser.uid);
+    await updateDoc(userRef, {
+      ...user.value
+    }).then(() => {
+      console.log('Settings updated successfully');
+    }).catch((error) => {
+      console.error("Error updating document: ", error);
+    });
+  }
 }
 
 function previewImage(event) {
   const file = event.target.files[0];
-  user.profilePicture = URL.createObjectURL(file);
-  // file upload for the picture
+  if (file) {
+    user.value.profilePicture = URL.createObjectURL(file);
+  }
 }
 </script>
+
 
 <style scoped>
 .settings-container {
@@ -122,10 +152,8 @@ function previewImage(event) {
   padding: 0.5rem;
   border: none;
   background-color: #10b981;
-  /* Emerald */
   color: white;
   border-radius: 0.375rem;
-  /* 6px */
   margin-right: 0.5rem;
 }
 
@@ -145,22 +173,18 @@ function previewImage(event) {
 .submit-button {
   padding: 0.75rem;
   background-color: #059669;
-  /* Emerald */
   color: white;
   font-weight: 600;
   border: none;
   border-radius: 0.375rem;
-  /* 6px */
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .submit-button:hover {
   background-color: #047857;
-  /* Darker emerald */
 }
 
-/* Responsive design for smaller screens */
 @media (max-width: 640px) {
   .settings-container {
     padding: 1rem;
