@@ -16,7 +16,7 @@
                       or select a file from your device
                   </p>
               </div>
-              <input id="profilePictureInput" ref="profilePictureInput" type="file" class="hidden" @change="uploadProfilePicture">
+              <input id="profilePictureInput" ref="profilePictureInput" type="file" accept="image/*" class="hidden" @change="uploadProfilePicture">
           </label>
       </div>
   

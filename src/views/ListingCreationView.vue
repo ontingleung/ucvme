@@ -4,7 +4,7 @@ import { auth, db } from '@/firebase';
 import { addDoc, collection, doc, getDoc, setDoc } from 'firebase/firestore';
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { job_tags } from '@/main';
+import { job_tags, All_Counties } from '@/main';
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -36,40 +36,7 @@ const router = useRouter();
 const route = useRoute();
 const profileID = route.params.profileID;
 const profileID_str = profileID.toString();
-const all_counties = [
-    "Antrim",
-    "Armagh",
-    "Carlow",
-    "Cavan",
-    "Clare",
-    "Cork",
-    "Derry",
-    "Donegal",
-    "Down",
-    "Dublin",
-    "Fermanagh",
-    "Galway",
-    "Kerry",
-    "Kildare",
-    "Kilkenny",
-    "Laois",
-    "Leitrim",
-    "Limerick",
-    "Longford",
-    "Louth",
-    "Mayo",
-    "Meath",
-    "Monaghan",
-    "Offaly",
-    "Roscommon",
-    "Sligo",
-    "Tipperary",
-    "Tyrone",
-    "Waterford",
-    "Westmeath",
-    "Wexford",
-    "Wicklow"
-]
+
 
 
 
@@ -80,7 +47,7 @@ var textarea_placeholder = `My old wooden fense is in dire need of a fresh coat 
 `
 const job_desc_content = ref("");
 
-const target_county = ref(all_counties[all_counties.indexOf("Dublin")]); // target county is dublin by default
+const target_county = ref(All_Counties[All_Counties.indexOf("Dublin")]); // target county is dublin by default
 
 const user = auth.currentUser;
 const has_login_been_implement_yet: boolean = false;
@@ -306,7 +273,7 @@ function verify_and_create_listing() {
 
                 </label>
                 <textarea required rows="6" v-model="job_desc_content"
-                    class="  shadow-xl p-3 rounded-3xl resize-y  appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 py-3 px-4 leading-tight focus:outline-dashed focus:bg-white focus:border-green-500"
+                    class="  shadow-xl p-3 rounded-3xl resize-y  appearance-none block w-full bg-gray-200 text-gray-700 border  py-3 px-4 leading-tight focus:outline-dashed focus:bg-white focus:border-green-500"
                     id="grid-desc" type="text" :placeholder=textarea_placeholder></textarea>
             </div>
         </div>
@@ -339,7 +306,7 @@ function verify_and_create_listing() {
                 <select v-model="target_county"
                     class="w-full appearance-none bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded-full leading-tight focus:outline-none focus:bg-white focus:border-green-500"
                     id="county">
-                    <option v-for="county in all_counties" :value="county">{{ county }}</option>
+                    <option v-for="county in All_Counties" :value="county">{{ county }}</option>
 
                 </select>
             </div>
@@ -548,7 +515,7 @@ function verify_and_create_listing() {
                         class="inline-flex items-center gap-x-2 py-3 px-1 text-xs font-light bg-white border text-gray-900 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg sm:-ms-px sm:mt-0 sm:first:rounded-se-none sm:first:rounded-es-lg sm:last:rounded-es-none sm:last:rounded-se-lg   ">
                         <div class="relative flex items-start w-full">
                             <select v-model="chosen_job_tags[3]"
-                                class="w-full appearance-none bg-teal-100 border ps-2 border border-gray-200 text-gray-700 py-3 px-1 pr-6  rounded-full  leading-tight focus:outline-none focus:bg-white focus:border-green-500">
+                                class="w-full appearance-none bg-teal-100 border ps-2 border-gray-200 text-gray-700 py-3 px-1 pr-6  rounded-full  leading-tight focus:outline-none focus:bg-white focus:border-green-500">
                                 <option v-for="(tag, index) in job_tags" :key="index" :value="tag">{{ tag }}</option>
                             </select>
                         </div>
@@ -585,7 +552,7 @@ function verify_and_create_listing() {
                 <h1 class="place-self-center font-bold text-xl text-slate-50">Once you're sure that all the information
                     is correct, you can submit this listing!</h1>
                 <button @click="verify_and_create_listing()"
-                    class="py-8 px-10 bg-lime-400 rounded-full hover:bg-lime-300 text-white font-bold  border-b-4 border-lime-700 hover:border-lime-500 ">
+                    class="py-8 px-10 bg-lime-500 rounded-full hover:bg-lime-300 text-white font-bold  border-b-4 border-lime-700 hover:border-lime-500 ">
                     <span class="text-2xl">Create Job Listing</span>
                 </button>
             </div>
