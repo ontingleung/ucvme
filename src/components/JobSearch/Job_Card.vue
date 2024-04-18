@@ -42,28 +42,27 @@ function GoToJob(job_link_to_nav_to: string) {
 </script>
 
 <template>
+  <button @click="GoToJob(job_ID)">
     <div class="job-card">
-      <!-- Job Title -->
       <h1 class="font-sans text-green-50 text-3xl font-bold">{{ job_title }}</h1>
       
-      <!-- Location -->
       <p class="font-sans font-bold text-slate-100">From {{ job_author }}, County {{ job_county }}</p>
       
-      <!-- Description -->
       <div class="max-w-prose font-sans" style="max-height: 80px;">
         {{ job_description }} 
       </div>
     </div>
-  </template>
+  </button>
+</template>
   
-  <style scoped>
+<style scoped>
   .job-card {
     padding: 1rem;
     background: linear-gradient(to right, #68D391, #48BB78);
     border-radius: 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
     margin-bottom: 1rem;
-    height: 250px; /* Adjust as needed */
+    height: 250px;
   }
   
   .job-card h1 {
@@ -77,5 +76,5 @@ function GoToJob(job_link_to_nav_to: string) {
   .job-card:hover {
     transform: translateY(-5px);
   }
-  </style>
+</style>
   
