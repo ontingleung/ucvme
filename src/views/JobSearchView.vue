@@ -88,7 +88,7 @@ const update_listings = (results_buffer: QuerySnapshot<DocumentData, DocumentDat
         local_buffer = results_buffer.docs;
     }
 
-    // We need to clear the profiles list first, rather than adding to it already
+    // We need to clear the job list first, rather than adding to it already
     if (clear_listing_list == true) {
         for (let index = listings.value.length; index >= 0; index--) {
             listings.value.pop();
@@ -115,19 +115,17 @@ const update_listings = (results_buffer: QuerySnapshot<DocumentData, DocumentDat
 
 const query_listings = async () => {
 
-    // Step 1 : Clear everything first
+    //Clear everything first
     var listings_buffer: QuerySnapshot<DocumentData, DocumentData>;
 
-    // Step 2 : Has the user typed a name to search for?
+    //Has the user typed a job title to search for?
     let jname_search_field: string = (document.getElementById("job_title_search") as HTMLInputElement).value;
 
-    if (jname_search_field.length > 0 && jname_search_field != last_searched_job) {     // We need to look for someone!
+    if (jname_search_field.length > 0 && jname_search_field != last_searched_job) {
 
 
         last_searched_job = jname_search_field; // We dont want to look for the SAME name
-
-
-        // TODO : THIS IS AWFUL!!! STRING COMPARISONS SHOULD BE DONE BY TYPESENSE! 
+ 
         var job_name_results_query = query(collection(db, "jobs"), where("job_title", ">=", jname_search_field));
 
         console.debug("Getting collection data now");
@@ -142,21 +140,21 @@ const query_listings = async () => {
 
 
         job_name_results.forEach((jobname_doc) => {
-            if (listings_buffer.docs.includes(jobname_doc) == false)  // Do we already have this profile in our first name list of results?
+            if (listings_buffer.docs.includes(jobname_doc) == false)
             {
                 listings_buffer.docs.concat(jobname_doc);
             }
         })
 
-        update_listings(listings_buffer, true); // update the list of profiles AND clear whatever was there before
+        update_listings(listings_buffer, true); 
     }
 
-    else {  // No name was enetered
+    else {  // Nothing was enetered
         //await new Promise(r => setTimeout(r, 90000000)); 
-        listings_buffer = await getDocs(query(collection(db, "jobs"), limit(2))); // get the first 2 profiles
+        listings_buffer = await getDocs(query(collection(db, "jobs"), limit(2))); // get the first 2 job listings
         update_listings(listings_buffer, true);
 
-        listings_buffer = await getDocs(query(collection(db, "jobs"), limit(2), startAfter(listings_buffer.docs[listings_buffer.docs.length - 1]))); // get the next first 2 profiles
+        listings_buffer = await getDocs(query(collection(db, "jobs"), limit(2), startAfter(listings_buffer.docs[listings_buffer.docs.length - 1]))); // get the next first 2 listings
         update_listings(listings_buffer, false);
 
         listings_buffer = await getDocs(query(collection(db, "jobs"), startAfter(listings_buffer.docs[listings_buffer.docs.length - 1]))); // get the rest
@@ -170,7 +168,7 @@ const query_listings = async () => {
 
     <div class="p-5 grid grid-cols-2">
         <div class="mx-auto bg-gradient-to-r from-green-200 to-green-100 rounded-2xl col-span-2 lg:px-28 md:px-16 sm:px-4 py-16 my-16">
-            <h2 class="text-3xl font-bold tracking-tight text-gray-600 sm:text-4xl">Find the Perfect Job for YOU!!</h2>
+            <h2 class="text-3xl font-bold tracking-tight text-gray-600 sm:text-4xl">Find the perfect job for YOU</h2>
             <p class="mt-4 text-lg leading-8 text-gray-600">You can specify filters here</p>
             <div class="mt-6 flex max-w-md gap-x-4 ">
                 <input id="job_title_search" type="text" v-on:input="query_listings"
@@ -215,7 +213,7 @@ const query_listings = async () => {
         </div>
 
         <div class="  2xl:px-72 xl:px-10 lg:px-48 md:px-32 sm:px-0 mx-5 grid xl:grid-cols-2 lg:grid-cols-1 justify-stretch col-span-2 gap-36 ">
-            <div v-if="!listings.length && !no_listings_found">
+            <div v-if="!listings.length && !no_listings_found" >
                 <h1>Fetching Profiles... Please wait</h1>
                 <div class="spinny_loading_circle" id="loading_circle"></div>
             </div>
