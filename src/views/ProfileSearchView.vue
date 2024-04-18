@@ -153,19 +153,19 @@ const query_profiles = async () => {
             }
         })
 
-        await update_profiles(profiles_buffer, true); // update the list of profiles AND clear whatever was there before
+        update_profiles(profiles_buffer, true); // update the list of profiles AND clear whatever was there before
     }
 
     else {  // No name was enetered
         //await new Promise(r => setTimeout(r, 90000000)); 
         profiles_buffer = await getDocs(query(collection(db, "users"), limit(2))); // get the first 2 profiles
-        await update_profiles(profiles_buffer, true);
+        update_profiles(profiles_buffer, true);
 
         profiles_buffer = await getDocs(query(collection(db, "users"), limit(2), startAfter(profiles_buffer.docs[profiles_buffer.docs.length - 1]))); // get the next first 2 profiles
-        await update_profiles(profiles_buffer, false);
+        update_profiles(profiles_buffer, false);
 
         profiles_buffer = await getDocs(query(collection(db, "users"), startAfter(profiles_buffer.docs[profiles_buffer.docs.length - 1]))); // get the rest
-        await update_profiles(profiles_buffer, false);
+        update_profiles(profiles_buffer, false);
     }
 }
 
@@ -235,9 +235,8 @@ const query_profiles = async () => {
                 :profile_town   =   JSON.parse(prof).town
                 :profile_fname  =   JSON.parse(prof).firstname
                 :profile_lname  =   JSON.parse(prof).surname
-                :profile_thumbnail_url  =   JSON.parse(prof).profilePictureUrl
-                :profile_description = JSON.parse(prof).aboutMe
-                :profile_email = JSON.parse(prof).email
+                :profile_thumbnail_url  =   JSON.parse(prof).profileImage
+                profile_description = ""
                 />
                 <!--description="TODO : Add User description field in firestore" -->
 
