@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { collection, query, orderBy, startAfter, limit, getDocs, where, Query, or, QuerySnapshot, type DocumentData } from "firebase/firestore";
 import { db } from "@/firebase";
-import Profile_Card from "../components/ProfileSearch/Profile_Card.vue"
+import Job_Card from "../components/JobSearch/Job_Card.vue"
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
 
 const counties: [string, boolean][] = [
@@ -39,31 +39,29 @@ const counties: [string, boolean][] = [
     ['Wexford', false],
     ['Wicklow', false],
 ];
-const filter_age_max = ref("150");
-const filter_age_min = ref("16");
 const filter_county = ref(counties);
-const filter_name = ref("");
-const profiles = ref([])
-const no_profiles_found = ref(false);
+const filter_job_title = ref("");
+const listings = ref([])
+const no_listings_found = ref(false);
 
-var last_searched_name = "";
+var last_searched_job = "";
 
 onMounted(() => {
-    query_profiles();
+    query_listings();
     setInterval(show_no_results_message, 2000);
 });
 
 
 function show_no_results_message() {
-    if (profiles.value.length <= 0) {
-        no_profiles_found.value = true
+    if (listings.value.length <= 0) {
+        no_listings_found.value = true
     }
     else {
-        no_profiles_found.value = false
+        no_listings_found.value = false
     }
 }
 
-const update_profiles = (results_buffer: QuerySnapshot<DocumentData, DocumentData>, clear_profile_list: boolean) => {
+const update_listings = (results_buffer: QuerySnapshot<DocumentData, DocumentData>, clear_listing_list: boolean) => {
 
     var local_buffer = [];
     var bother_check_counties = false;
@@ -90,82 +88,77 @@ const update_profiles = (results_buffer: QuerySnapshot<DocumentData, DocumentDat
         local_buffer = results_buffer.docs;
     }
 
-    // We need to clear the profiles list first, rather than adding to it already
-    if (clear_profile_list == true) {
-        for (let index = profiles.value.length; index >= 0; index--) {
-            profiles.value.pop();
+    // We need to clear the job list first, rather than adding to it already
+    if (clear_listing_list == true) {
+        for (let index = listings.value.length; index >= 0; index--) {
+            listings.value.pop();
         }
     }
 
-    console.debug("Current Local Profile buffer is " + local_buffer.length)
+    console.debug("Current Local Job Listing buffer is " + local_buffer.length)
     local_buffer.forEach((doc) => {
-        var current_profile = JSON.stringify(doc.data());
-        var current_profile_JSON = JSON.parse(current_profile);
-        current_profile_JSON["profile_ID"] = doc.id;
+        var current_listing = JSON.stringify(doc.data());
+        var current_listing_JSON = JSON.parse(current_listing);
+        current_listing_JSON["job_ID"] = doc.id;
 
-        if (current_profile_JSON["surname"] === "" || current_profile_JSON["firstname"] === "") {
-            console.debug("Invalid user encountered ID : " + current_profile_JSON["profile_ID"]);
+        if (current_listing_JSON["job_title"] === "") {
+            console.debug("Invalid job encountered ID : " + current_listing_JSON["job_ID"]);
         }
 
-        else if (profiles.value.includes(doc.id) == false) {
-            profiles.value.push(JSON.stringify(current_profile_JSON));
-            console.debug("Pushed " + JSON.stringify(current_profile_JSON) + " onto profile list");
+        else if (listings.value.includes(doc.id) == false) {
+            listings.value.push(JSON.stringify(current_listing_JSON));
+            console.debug("Pushed " + JSON.stringify(current_listing_JSON) + " onto job list");
         }
 
     });
 }
 
-const query_profiles = async () => {
+const query_listings = async () => {
 
-    // Step 1 : Clear everything first
-    var profiles_buffer: QuerySnapshot<DocumentData, DocumentData>;
+    //Clear everything first
+    var listings_buffer: QuerySnapshot<DocumentData, DocumentData>;
 
-    // Step 2 : Has the user typed a name to search for?
-    let name_search_field: string = (document.getElementById("profile_name") as HTMLInputElement).value;
+    //Has the user typed a job title to search for?
+    let jname_search_field: string = (document.getElementById("job_title_search") as HTMLInputElement).value;
 
-    if (name_search_field.length > 0 && name_search_field != last_searched_name) {     // We need to look for someone!
-
-
-        last_searched_name = name_search_field; // We dont want to look for the SAME name
+    if (jname_search_field.length > 0 && jname_search_field != last_searched_job) {
 
 
-        // TODO : THIS IS AWFUL!!! STRING COMPARISONS SHOULD BE DONE BY TYPESENSE! 
-        var first_name_results_query = query(collection(db, "users"), where("firstname", ">=", name_search_field)); // Firestore string querys are weird
-        var last_name_results_query = query(collection(db, "users"), where("surname", ">=", name_search_field));
+        last_searched_job = jname_search_field; // We dont want to look for the SAME name
+ 
+        var job_name_results_query = query(collection(db, "jobs"), where("job_title", ">=", jname_search_field));
 
         console.debug("Getting collection data now");
-        var first_name_results = await getDocs(first_name_results_query);
-        var last_name_results = await getDocs(last_name_results_query);
+        var job_name_results = await getDocs(job_name_results_query);
         console.debug("Collection data recieved");
 
 
-        // Add First Name Results first, THEN surname results
-        profiles_buffer = first_name_results;
-        console.debug("Profile buffer is now : " + profiles_buffer.docs);
-        console.debug("fname buffer is now : " + first_name_results.docs);
-        console.debug("lname buffer is now : " + last_name_results.docs);
+        // Add job title Name Results first
+        listings_buffer = job_name_results;
+        console.debug("Job listing buffer is now : " + listings_buffer.docs);
+        console.debug("jname buffer is now : " + job_name_results.docs);
 
 
-        last_name_results.forEach((surname_doc) => {
-            if (profiles_buffer.docs.includes(surname_doc) == false)  // Do we already have this profile in our first name list of results?
+        job_name_results.forEach((jobname_doc) => {
+            if (listings_buffer.docs.includes(jobname_doc) == false)
             {
-                profiles_buffer.docs.concat(surname_doc);
+                listings_buffer.docs.concat(jobname_doc);
             }
         })
 
-        await update_profiles(profiles_buffer, true); // update the list of profiles AND clear whatever was there before
+        update_listings(listings_buffer, true); 
     }
 
-    else {  // No name was enetered
+    else {  // Nothing was enetered
         //await new Promise(r => setTimeout(r, 90000000)); 
-        profiles_buffer = await getDocs(query(collection(db, "users"), limit(2))); // get the first 2 profiles
-        await update_profiles(profiles_buffer, true);
+        listings_buffer = await getDocs(query(collection(db, "jobs"), limit(2))); // get the first 2 job listings
+        update_listings(listings_buffer, true);
 
-        profiles_buffer = await getDocs(query(collection(db, "users"), limit(2), startAfter(profiles_buffer.docs[profiles_buffer.docs.length - 1]))); // get the next first 2 profiles
-        await update_profiles(profiles_buffer, false);
+        listings_buffer = await getDocs(query(collection(db, "jobs"), limit(2), startAfter(listings_buffer.docs[listings_buffer.docs.length - 1]))); // get the next first 2 listings
+        update_listings(listings_buffer, false);
 
-        profiles_buffer = await getDocs(query(collection(db, "users"), startAfter(profiles_buffer.docs[profiles_buffer.docs.length - 1]))); // get the rest
-        await update_profiles(profiles_buffer, false);
+        listings_buffer = await getDocs(query(collection(db, "jobs"), startAfter(listings_buffer.docs[listings_buffer.docs.length - 1]))); // get the rest
+        update_listings(listings_buffer, false);
     }
 }
 
@@ -175,12 +168,12 @@ const query_profiles = async () => {
 
     <div class="p-5 grid grid-cols-2">
         <div class="mx-auto bg-gradient-to-r from-green-200 to-green-100 rounded-2xl col-span-2 lg:px-28 md:px-16 sm:px-4 py-16 my-16">
-            <h2 class="text-3xl font-bold tracking-tight text-gray-600 sm:text-4xl">Here's who around!</h2>
+            <h2 class="text-3xl font-bold tracking-tight text-gray-600 sm:text-4xl">Find the perfect job for YOU</h2>
             <p class="mt-4 text-lg leading-8 text-gray-600">You can specify filters here</p>
             <div class="mt-6 flex max-w-md gap-x-4 ">
-                <input id="profile_name" type="text" v-on:input="query_profiles"
+                <input id="job_title_search" type="text" v-on:input="query_listings"
                     class=" min-w-0 flex-auto rounded-xl border-0 text-xl bg-slate-50  ring-black px-3.5 py-2  shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-green-500 sm:text-md sm:leading-6"
-                    placeholder="John Doe">
+                    placeholder="Type here...">
 
                 <!-- Filter -->
                 <div class="top-16 w-50  px-4 mx-5">
@@ -207,7 +200,7 @@ const query_profiles = async () => {
                                         <span></span>
                                         <div v-for="(county, index) in counties" :key="index" class="checkbox">
                                             <input type="checkbox" :id="county[0]" v-model="county[1]"
-                                                @change="query_profiles">
+                                                @change="query_listings">
                                             <label class="px-1" :for="county[0]">{{ county[0] }}</label>
                                         </div>
                                     </div>
@@ -220,26 +213,22 @@ const query_profiles = async () => {
         </div>
 
         <div class="  2xl:px-72 xl:px-10 lg:px-48 md:px-32 sm:px-0 mx-5 grid xl:grid-cols-2 lg:grid-cols-1 justify-stretch col-span-2 gap-36 ">
-            <div v-if="!profiles.length && !no_profiles_found">
+            <div v-if="!listings.length && !no_listings_found" >
                 <h1>Fetching Profiles... Please wait</h1>
                 <div class="spinny_loading_circle" id="loading_circle"></div>
             </div>
-            <div v-if="no_profiles_found">
-                <h1>No profiles were found, consider adjusting your filters</h1>
+            <div v-if="no_listings_found">
+                <h1>No Joblistings were found, consider adjusting your filters</h1>
             </div>
 
-            <div v-for="prof of profiles">
-                <Profile_Card 
-                :profile_ID     =   JSON.parse(prof).profile_ID
-                :profile_county =   JSON.parse(prof).county
-                :profile_town   =   JSON.parse(prof).town
-                :profile_fname  =   JSON.parse(prof).firstname
-                :profile_lname  =   JSON.parse(prof).surname
-                :profile_thumbnail_url  =   JSON.parse(prof).profilePictureUrl
-                :profile_description = JSON.parse(prof).aboutMe
-                :profile_email = JSON.parse(prof).email
+            <div v-for="job of listings">
+                <Job_Card 
+                :job_ID     =   JSON.parse(job).job_ID
+                :job_county =   JSON.parse(job).county
+                :job_author  =   JSON.parse(job).job_author
+                :job_title  =   JSON.parse(job).job_title
+                :job_description = JSON.parse(job).job_description
                 />
-                <!--description="TODO : Add User description field in firestore" -->
 
             </div>
         </div>
