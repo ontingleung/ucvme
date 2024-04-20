@@ -36,6 +36,7 @@ const router = useRouter();
 const route = useRoute();
 const profileID = route.params.profileID;
 const profileID_str = profileID.toString();
+const userName = ref("");
 
 
 
@@ -67,6 +68,7 @@ onMounted(async () => {
 
         // Proceed on and set our data to work with
         var user_data = await getDoc(doc(db, "users", user.uid));
+        userName.value = user_data.data()["firstname"] + " " + user_data.data()["surname"];
         target_county.value = user_data.data()["county"];
     }
     else {
@@ -143,7 +145,7 @@ async function submit_listing(doc_data: {}) {
         working_days: doc_data["working_days"]
     });
 
-    router.push("/search-listings"); // TODO : Once Ileana finishes job search view, could maybe redirect user to that new listing instead... it'll do for now :) 
+    router.push("/view-listings"); 
 }
 
 function verify_and_create_listing() {
@@ -209,7 +211,7 @@ function verify_and_create_listing() {
     data_to_submit["county"] = target_county.value;
     data_to_submit["deadline"] = '01 Jan 3000 00:00:00 GMT'; // is a hack, dont know if we care about deadline?
     data_to_submit["desired_months_experience"] = months_exp.value;
-    data_to_submit["job_author"] = profileID_str;
+    data_to_submit["job_author"] = userName.value;
     data_to_submit["job_description"] = job_desc_content.value;
     data_to_submit["job_mini_description"] = job_bio.value;
     data_to_submit["job_title"] = job_title.value;
@@ -233,9 +235,9 @@ function verify_and_create_listing() {
 </script>
 
 <template>
-    <div class="w-full sm:w-full p-2 mx-auto max-w-2xl">
+    <div class="w-full sm:w-full p-2 mx-auto max-w-4xl">
         <h1
-            class="font-bold text-4xl p-10 my-5 shadow-2xl text-slate-50 font-sans rounded-full bg-gradient-to-r from-lime-500 to-teal-500">
+            class="font-bold text-4xl p-10 my-5 outline text-slate-50 font-sans rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-300">
             Create a new Job Listing</h1>
         <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full px-3 mb-6 md:mb-0">
@@ -297,7 +299,7 @@ function verify_and_create_listing() {
                 </div>
             </div>
 
-            <div class="md:w-1/2 px-3 mt-8 md:mb-0 shadow-lg p-3  rounded-3xl">
+            <div class="md:w-1/2 px-3 mt-8 md:mb-0 shadow-md p-3  rounded-3xl">
                 <label class="block uppercase tracking-wide text-gray-700 text-md font-sans font-bold mb-2"
                     for="county">
                     County
@@ -311,7 +313,7 @@ function verify_and_create_listing() {
                 </select>
             </div>
 
-            <div class="md:w-1/2 px-3 mt-5 md:mb-0 shadow-lg p-3 rounded-3xl">
+            <div class="md:w-1/2 px-3 mt-8 md:mb-0 shadow-md p-3 rounded-3xl">
                 <label class="block uppercase tracking-wide text-gray-700 text-md font-sans font-bold mb-2" for="type">
                     type of work
                     <span id="job_type_help_text" class=" pl-3 text-xs text-gray-500 font-normal">
@@ -334,7 +336,7 @@ function verify_and_create_listing() {
                 </label>
 
                 <!-- VUE can NOT deal with horizontal lists, I tried-->
-                <ul class="flex md:-mx-16 flex-col md:flex-row shadow-xl rounded-lg">
+                <ul class="flex flex-col md:flex-row shadow-xl rounded-lg">
 
                     <!-- Monday -->
                     <li
@@ -548,11 +550,11 @@ function verify_and_create_listing() {
 
 
             <div
-                class="w-full flex flex-col md:flex-row place-content-center bg-gradient-to-r shadow-2xl from-lime-500 to-green-500 my-16 mb-32 p-5 shadown-2xl rounded-full">
+                class="w-full flex flex-col md:flex-row place-content-center bg-gradient-to-r shadow-2xl from-emerald-500 to-emerald-500 my-16 mb-32 p-5 shadown-2xl rounded-xl">
                 <h1 class="place-self-center font-bold text-xl text-slate-50">Once you're sure that all the information
                     is correct, you can submit this listing!</h1>
                 <button @click="verify_and_create_listing()"
-                    class="py-8 px-10 bg-lime-500 rounded-full hover:bg-lime-300 text-white font-bold  border-b-4 border-lime-700 hover:border-lime-500 ">
+                    class="py-8 px-10 bg-emerald-600 rounded-xl hover:bg-emerald-300 text-white font-bold  border-b-4 border-emerald-700 hover:border-emerald-500 ">
                     <span class="text-2xl">Create Job Listing</span>
                 </button>
             </div>

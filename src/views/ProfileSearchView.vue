@@ -51,6 +51,7 @@ var last_searched_name = "";
 onMounted(() => {
     query_profiles();
     setInterval(show_no_results_message, 2000);
+    console.log(profiles);
 });
 
 

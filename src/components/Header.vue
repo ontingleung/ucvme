@@ -53,11 +53,14 @@ async function logout() {
         </ul>
         <div class="menu-container">
           <button @click="toggleMenu" class="burger">☰</button>
-          <div class="menu" v-show="menuOpen">
+          <div class="menu rounded-lg" v-show="menuOpen">
             <ul>
               <li class="menu-heading" v-if="user">Work</li>
               <li v-if="user">
-                <RouterLink :to="`/${uid}/create-job-listing`" @click.native="toggleMenu">Create Job Listing</RouterLink>
+                <RouterLink :to="`/${uid}/create-job-listing`" @click.native="toggleMenu">Create a Job</RouterLink>
+              </li>
+              <li v-if="user">
+                <RouterLink :to="`/view-listings`" @click.native="toggleMenu">Jobs</RouterLink>
               </li>
               <li class="menu-heading">Profile</li>
               <li>

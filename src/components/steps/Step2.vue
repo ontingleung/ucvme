@@ -21,7 +21,7 @@ const userLoc = ref({
             <div class="h-2 w-2/5 rounded-full bg-emerald-400"></div>
         </div>
         <p class="mt-5 text-md leading-6 text-gray-600">Hello {{ props.firstName }}, 👋🏼 Welcome!</p>
-        <p class="text-md leading-6 text-gray-600">Enter your location to get jobs listing close to you.</p>
+        <p class="text-md leading-6 text-gray-600">Enter your location for your profile.</p>
         <p class="text-md leading-6 text-gray-600"></p>
         <div class="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div class="sm:col-span-3">
