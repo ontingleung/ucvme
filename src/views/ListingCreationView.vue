@@ -233,7 +233,7 @@ function verify_and_create_listing() {
 </script>
 
 <template>
-    <div class="w-full mx-auto max-w-2xl">
+    <div class="w-full sm:w-full p-2 mx-auto max-w-2xl">
         <h1
             class="font-bold text-4xl p-10 my-5 shadow-2xl text-slate-50 font-sans rounded-full bg-gradient-to-r from-lime-500 to-teal-500">
             Create a new Job Listing</h1>
@@ -304,7 +304,7 @@ function verify_and_create_listing() {
 
                 </label>
                 <select v-model="target_county"
-                    class="w-full appearance-none bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded-full leading-tight focus:outline-none focus:bg-white focus:border-green-500"
+                    class="w-full appearance-none p-2 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded-full leading-tight focus:outline-none focus:bg-white focus:border-green-500"
                     id="county">
                     <option v-for="county in All_Counties" :value="county">{{ county }}</option>
 
@@ -328,7 +328,7 @@ function verify_and_create_listing() {
                 </select>
             </div>
 
-            <div class="   px-3  mt-10 md:mb-0">
+            <div class="px-3  mt-10 md:mb-0">
                 <label class="   block uppercase tracking-wide text-gray-700 text-md font-sans font-bold mb-2">
                     Available days
                 </label>

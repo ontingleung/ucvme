@@ -90,44 +90,44 @@ function GoToProfile(profile_link_to_nav_to: string) {
 
 </script>
 
+
+
 <template>
-
-
-    <button
-        class="grid w-full grid-cols-2 max-h-72 grid-rows-4 auto-rows-auto gap-4 p-4 justify-stretch bg-gradient-to-r from-green-500 to-green-700 rounded-3xl ring-4 ring-black"
-        @click="GoToProfile(profile_ID)">
-
-        <div class=" bg-slate-200 ring-4  ring-black row-span-4 rounded-full grid w-48 h-48 place-content-center text-center"
-            :style="{backgroundImage: `url('${props.profile_thumbnail_url}')`, backgroundSize: `cover`, backgroundPositionY: `center`, backgroundPositionX: `center`}">
-        
-        </div>
-        <div class="">
-            <h1 class="font-sans text-green-50 text-3xl font-bold">{{ profile_fname }} {{ profile_lname }}</h1>
-        </div>
-        <div class="pt-4">
-            <p class="font-sans font-bold text-slate-100"> From {{ profile_town }}, {{ profile_county }} </p>
-        </div>
-        <div class=" auto-rows-min mx-0">
-            <div class="py-1 my-1">
-                <button
-                    class="bg-gradient-to-r w-full from-green-300 to-blue-400 hover:from-teal-300 hover:to-green-400 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline ring-2 ring-black rounded-xl"
-                    type="button">
-                    Play video </button>
+    <div class="flex flex-col sm:flex-row"> 
+        <button
+            class="grid grid-cols-1 m-2 sm:m-0 grid-rows-4 sm:grid-cols-2 w-full sm:grid-rows-4 max-h-72 gap-4 p-2 sm:p-4 justify-center bg-gradient-to-r from-green-500 to-green-700 rounded-3xl ring-4 ring-black"
+            @click="GoToProfile(profile_ID)">
+            <div class=" bg-slate-200 ring-4 mx-4 my-4 ring-black row-span-4 rounded-full grid content-around w-24 h-24 sm:w-48 sm:h-48 place-content-center text-center"
+                :style="{backgroundImage: `url('${props.profile_thumbnail_url}')`, backgroundSize: `cover`, backgroundPositionY: `center`, backgroundPositionX: `center`}">
+            
             </div>
-            <div class="">
-                <button v-on:click.stop @click="GoToMessageProfile(profile_ID)"
-                    class="bg-gradient-to-r w-full from-green-300 to-teal-500 hover:from-lime-300 hover:to-green-500 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline ring-2 ring-black rounded-xl"
-                    type="button">
-                    Contact {{ profile_fname }}
-                </button>
+            <div class="p-2">
+                <h1 class="font-sans overflow-hidden text-green-50 text-xl sm:text-3xl font-bold">{{ profile_fname }} {{ profile_lname }}</h1>
             </div>
-        </div>
-        <div class="col-start-1 flex-initial px-1 font-bold max-h-14  text-slate-100 col-end-3 max-w  text-center font-sans backdrop-brightness-50 rounded-3xl  ">
-            {{ profile_desc_truncated }}
-        </div>
-    </button>
+            <div class="p-2">
+                <p class="font-sans overflow-hidden max-w-36 max-h-15 font-bold text-m sm:text-xl text-slate-100"> From {{ profile_town }}, {{ profile_county }} </p>
+            </div>
+            <div class="p-2">
+                <div class="py-1 my-1">
+                    <button
+                        class="bg-gradient-to-r w-full content-around from-green-300 to-blue-400 hover:from-teal-300 hover:to-green-400 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline ring-2 ring-black rounded-xl"
+                        type="button">
+                        Play video </button>
+                </div>
+                <div class="">
+                    <button v-on:click.stop @click="GoToMessageProfile(profile_ID)"
+                        class="bg-gradient-to-r w-full overflow-hidden content-around from-green-300 to-teal-500 hover:from-lime-300 hover:to-green-500 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline ring-2 ring-black rounded-xl"
+                        type="button">
+                        Contact {{ profile_fname }}
+                    </button>
+                </div>
+            </div>
+            <div class="col-start-1 flex-initial px-1 font-bold max-h-10 text-slate-100 col-end-3 max-w-74 max-h-16 overflow-hidden text-center font-sans backdrop-brightness-50 rounded-3xl  ">
+                {{ profile_desc_truncated }}
+            </div>
+        </button>
+    </div>
 </template>
-
 
 
 <style></style>
