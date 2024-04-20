@@ -1,19 +1,34 @@
 <template>
-    <div class="container bg-white flex flex-col items-center text-center px-4">
-        <h1 class="text-5xl font-bold mb-4">
-            Create a Personal Video CV
-        </h1>
-        <p class="text-2xl text-blue-600 mb-6">
-            Make videos to showcase your casual work as a <span class="typewriter text-emerald-600">{{ currentJob
+
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Pacifico&display=swap"
+            rel="stylesheet">
+
+        <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+
+    </head>
+    <div class="container bg-white px-4">
+        <div class="bg-emerald-700 p-4 header">
+            <br>
+            <h1 class="text-white text-6xl font-bold mb-4 head">
+                Create a Personal Video CV
+            </h1>
+            <br>
+        </div>
+        <br>
+        <p class=" bg-white text-2xl text-emerald-700 drop-shadow-lg mb-6 p-3 rounded-full tagline">
+            Make videos to showcase your casual work as a <span class="typewriter text-blue-600">{{ currentJob
                 }}</span>
         </p>
-        <p class="mb-8">
+        <p class=" bg-white text-xl text-emerald-700 drop-shadow-lg mb-6 p-3 rounded-full tagline">
             Introduce yourself and present your best qualities through a personal video cv.
         </p>
         <button
-            class="bg-emerald-500 text-white font-bold py-2 px-8 rounded-full hover:bg-emerald-600 transition-colors"
-            @click="signup"
-            >
+            class="bg-emerald-500 text-white p-7 rounded-full hover:bg-emerald-600 transition-colors drop-shadow-md tagline-b"
+            @click="signup">
             START CREATING
         </button>
     </div>
@@ -54,10 +69,10 @@ onMounted(animateTypewriter);
 .container {
     min-height: 100vh;
     min-width: 100dvw;
-    background-image: url('https://firebasestorage.googleapis.com/v0/b/ucvme-global.appspot.com/o/assets%2FHomeBackground.png?alt=media&token=f569a739-b0d4-46b8-93f7-92fe3b99c7ce');
+    background-image: url('../assets/pattern.jpeg');
     background-size: contain;
     background-position: center;
-    background-repeat: no-repeat;
+    background-repeat: repeat-x;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -66,11 +81,33 @@ onMounted(animateTypewriter);
     text-align: center;
 }
 
+.header {
+    width: 100dvw;
+}
+
+.head {
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.tagline {
+    font-family: "Comfortaa", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: normal;
+    font-style: normal;
+}
+.tagline-b {
+    font-family: "Comfortaa", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bolder;
+    font-style: normal;
+}
 
 .typewriter {
     display: inline-flex;
     overflow: hidden;
-    border-right: .15em solid rgb(57, 176, 14);
+    border-right: .15em solid rgb(92, 129, 222);
     white-space: nowrap;
 
     margin: 0;

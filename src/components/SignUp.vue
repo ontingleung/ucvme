@@ -1,5 +1,5 @@
 <template>
-    <div class="max-w-screen-xl mx-auto bg-white md:rounded-lg flex justify-center">
+    <div class="max-w-screen-xl mx-auto bg-white md:rounded-lg flex justify-center ring ring-emerald-300 rounded-lg ring-1">
         <div class="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
             <div class="mt-12 flex flex-col items-center">
                 <h1 class="text-2xl xl:text-3xl font-extrabold">
@@ -9,7 +9,7 @@
                     <div class="flex flex-col items-center">
                         <button
                             @click="googleSignUp"
-                            class="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-emerald-300 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
+                            class="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-emerald-500 text-white flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
                             <div class="bg-white p-2 rounded-full">
                                 <svg class="w-4" viewBox="0 0 533.5 544.3">
                                     <path
@@ -35,7 +35,7 @@
                     <div class="my-12 border-b text-center">
                         <div
                             class="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
-                            Or sign up with e-mail
+                            &nbsp;Or&nbsp;
                         </div>
                     </div>
 
@@ -47,7 +47,7 @@
                             class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
                             type="password" placeholder="Password" v-model="password"/>
                         <button
-                            class="mt-5 tracking-wide font-semibold bg-emerald-400 text-gray-100 w-full py-4 rounded-lg hover:bg-emerald-600 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                            class="mt-5 tracking-wide font-semibold bg-emerald-500 text-gray-100 w-full py-4 rounded-lg hover:bg-emerald-800 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                             @click="signup"
                             >
                             <svg class="w-6 h-6 -ml-2" fill="none" stroke="currentColor" stroke-width="2"
@@ -74,7 +74,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex-1 bg-emerald-100 text-center hidden lg:flex">
+        <div class="flex-1 bg-emerald-800 text-center hidden lg:flex rounded-r-lg">
             <div class="m-0 w-full bg-contain bg-center bg-no-repeat"
                 style="background-image: url('https://firebasestorage.googleapis.com/v0/b/ucvme-global.appspot.com/o/assets%2Fsignup.png?alt=media&token=2428fed9-e934-4b19-ab69-49d4c36e9ed4');">
             </div>

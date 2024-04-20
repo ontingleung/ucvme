@@ -175,8 +175,8 @@ const query_profiles = async () => {
 <template>
 
     <div class="p-5 grid grid-cols-2">
-        <div class="mx-auto bg-gradient-to-r from-green-200 to-green-100 rounded-2xl col-span-2 lg:px-28 md:px-16 sm:px-4 py-16 my-16">
-            <h2 class="text-3xl font-bold tracking-tight text-gray-600 sm:text-4xl">Here's who around!</h2>
+        <div class="mx-auto bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-2xl col-span-2 lg:px-28 md:px-16 sm:px-4 py-16 my-16">
+            <h2 class="text-3xl font-bold tracking-tight text-gray-600 sm:text-4xl">Here's who's around!</h2>
             <p class="mt-4 text-lg leading-8 text-gray-600">You can specify filters here</p>
             <div class="mt-6 flex max-w-md gap-x-4 ">
                 <input id="profile_name" type="text" v-on:input="query_profiles"
@@ -187,7 +187,7 @@ const query_profiles = async () => {
                 <div class="top-16 w-50  px-4 mx-5">
                     <Popover v-slot="{ open }" class="relative">
                         <PopoverButton :class="open ? 'text-white' : 'text-white/90'"
-                            class="group inline-flex items-center rounded-xl bg-green-600 p-2  font-medium hover:text-green focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
+                            class="group inline-flex items-center rounded-xl bg-gray-700 p-2  font-medium hover:text-green focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 ">
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
                                 class="bi bi-funnel" viewBox="0 0 16 16">
                                 <path

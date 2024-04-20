@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { RouterLink } from 'vue-router';
 import { auth } from '../firebase';
-import { onAuthStateChanged, signOut  } from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -21,7 +21,7 @@ onMounted(() => {
 
 function toggleMenu() {
   menuOpen.value = !menuOpen.value;
-  console.log('Menu Open:', menuOpen.value); 
+  console.log('Menu Open:', menuOpen.value);
 }
 
 async function logout() {
@@ -35,7 +35,7 @@ async function logout() {
 </script>
 
 <template>
-  <header>
+  <header class="shadow">
     <nav class="container">
       <div class="logo">
         <RouterLink to="/homePage">
@@ -136,41 +136,41 @@ header {
 
         .menu {
           position: absolute;
-          top: 100%;  
+          top: 100%;
           right: 0;
-          width: 200px;  
+          width: 200px;
           background-color: white;
-          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
           transition: opacity 0.3s ease;
-          z-index: 100; 
+          z-index: 100;
 
           ul {
             list-style: none;
             margin: 0;
             padding: 0;
             display: flex;
-            flex-direction: column;  
+            flex-direction: column;
 
             .menu-heading {
               padding: 8px 20px;
               font-weight: bold;
-              color: #315639; 
-              background-color: #f0f0f0; 
+              color: #315639;
+              background-color: #f0f0f0;
             }
 
             li {
-              width: 100%;  
+              width: 100%;
 
               a {
-                display: block;  
-                padding: 10px 20px;  
+                display: block;
+                padding: 10px 20px;
                 text-decoration: none;
-                color: black;  
+                color: black;
 
                 &:hover {
-                  background-color: #eee;  
+                  background-color: #eee;
                 }
-              
+
               }
             }
           }
@@ -197,4 +197,3 @@ header {
   border-color: #e0a8ad;
 }
 </style>
-

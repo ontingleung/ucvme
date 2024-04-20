@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-screen-sm mx-auto shadow bg-white md:rounded-lg">
+  <div class="max-w-screen-sm mx-auto shadow bg-white md:rounded-lg ring ring-emerald-500">
     <div class="pb-12 m-20">
       <component :is="currentStepComponent" v-on:next="nextStep" :firstName="firstName" :lastName="lastName"
         :town="town" :county="county" v-on:update="updateData" />
