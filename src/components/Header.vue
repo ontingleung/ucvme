@@ -2,7 +2,10 @@
 import { ref, onMounted } from 'vue';
 import { RouterLink } from 'vue-router';
 import { auth } from '../firebase';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, signOut  } from 'firebase/auth';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const user = ref(null);
 const menuOpen = ref(false);
@@ -19,6 +22,15 @@ onMounted(() => {
 function toggleMenu() {
   menuOpen.value = !menuOpen.value;
   console.log('Menu Open:', menuOpen.value); 
+}
+
+async function logout() {
+  try {
+    await signOut(auth);
+    router.push('/');
+  } catch (error) {
+    console.error('Error signing out:', error.message);
+  }
 }
 </script>
 
@@ -59,6 +71,9 @@ function toggleMenu() {
               </li>
               <li>
                 <RouterLink to="/settings" @click.native="toggleMenu">Settings</RouterLink>
+              </li>
+              <li v-if="user">
+                <button class="logout-btn" @click="logout" @click.native="toggleMenu">Logout</button>
               </li>
             </ul>
           </div>
@@ -152,6 +167,7 @@ header {
                 &:hover {
                   background-color: #eee;  
                 }
+              
               }
             }
           }
@@ -159,6 +175,23 @@ header {
       }
     }
   }
+}
+
+.logout-btn {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  padding: 8px 16px;
+  cursor: pointer;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+}
+
+.logout-btn:hover {
+  background-color: #f5c6cb;
+  border-color: #e0a8ad;
 }
 </style>
 
