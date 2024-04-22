@@ -93,19 +93,19 @@ function GoToProfile(profile_link_to_nav_to: string) {
 
 
 <template>
-    <div class="flex flex-col sm:flex-row"> 
+    <div class="flex text-center flex-col sm:flex-row"> 
         <button
-            class="grid grid-cols-1 m-2 sm:m-0 grid-rows-4 sm:grid-cols-2 w-full sm:grid-rows-4 max-h-72 gap-4 p-2 sm:p-4 justify-center bg-white shadow-md rounded-3xl ring-emerald-200 ring-2"
+            class="grid grid-cols-1  text-center m-2 sm:m-0 grid-rows-4 sm:grid-cols-2 w-full sm:grid-rows-4 max-h-72 gap-4 p-2 sm:p-4 justify-center bg-white shadow-md rounded-3xl ring-emerald-200 ring-2"
             @click="GoToProfile(profile_ID)">
             <div class=" bg-slate-200 ring-4 mx-4 my-4 ring-emerald-500 row-span-4 rounded-full grid content-around w-24 h-24 sm:w-48 sm:h-48 place-content-center text-center"
                 :style="{backgroundImage: `url('${props.profile_thumbnail_url}')`, backgroundSize: `cover`, backgroundPositionY: `center`, backgroundPositionX: `center`}">
             
             </div>
             <div class="p-2">
-                <h1 class="font-sans overflow-hidden text-slate-600 text-xl sm:text-3xl font-bold">{{ profile_fname }} {{ profile_lname }}</h1>
+                <h1 class="font-sans overflow-hidden text-slate-600 text-xl sm:text-3xl font-bold">{{ profile_fname }}</h1>
             </div>
-            <div class="p-2">
-                <p class="font-sans overflow-hidden max-w-36 max-h-15 font-bold text-m sm:text-xl text-slate-600"> From {{ profile_county }} </p>
+            <div class="p-2 text-center">
+                <p class="font-sans overflow-hidden text-center max-w-36 max-h-15 font-bold text-m sm:text-xl text-slate-600"> From {{ profile_county }} </p>
             </div>
             <div class="pt-10">
                 <div class="">

@@ -235,12 +235,12 @@ const query_profiles = async () => {
                 :profile_county =   JSON.parse(prof).county
                 :profile_town   =   JSON.parse(prof).town
                 :profile_fname  =   JSON.parse(prof).firstname
-                :profile_lname  =   JSON.parse(prof).surname
+                profile_lname  =   ""
                 :profile_thumbnail_url  =   JSON.parse(prof).profilePictureUrl
                 :profile_description = JSON.parse(prof).aboutMe
                 :profile_email = JSON.parse(prof).email
                 />
-                <!--description="TODO : Add User description field in firestore" -->
+                <!--Limiting to JUST first name as both names causes styling issues" -->
 
             </div>
         </div>

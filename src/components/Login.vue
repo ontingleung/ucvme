@@ -74,7 +74,7 @@ const password = ref('');
 const login = async () => {
     try {
         await signInWithEmailAndPassword(auth, email.value, password.value);
-        router.push('/view-profile');
+        router.push(`/view-profile/${auth.currentUser.uid}`);
     } catch (error) {
         alert("Failed to log in: " + error.message);
     }
@@ -89,6 +89,7 @@ const googleLogin = async () => {
         const token = credential.accessToken;
         const user = result.user;
         alert("Google sign-in successful!");
+        router.push(`/view-profile/${user.uid}`);
     } catch (error) {
         alert("Failed to log in with Google: " + error.message);
     }

@@ -43,14 +43,17 @@ var user_doc_ref;
 const add_tag = (add: boolean) => {
     if (add) {
         chosen_job_tags.value[(chosen_job_tags.value.length)] = "";
+        bother_saving.value = true;
     }
     else {
         chosen_job_tags.value.pop();
+        bother_saving.value = true;
     }
 }
 
 const addWorkExperience = () => {
     workExperiences.value.push({ jobTitle: '', companyName: '', jobDuration: '' });
+    bother_saving.value = true;
 };
 const newWorkExperience = (job_data, company_data, duration_data) => {
     workExperiences.value.push({ jobTitle: job_data, companyName: company_data, jobDuration: duration_data });
@@ -58,10 +61,12 @@ const newWorkExperience = (job_data, company_data, duration_data) => {
 
 const addEducation = () => {
     educations.value.push({ schoolName: '', degree: '', yearsAttended: '' });
+    bother_saving.value = true;
 };
 const newEducation = (school_name, degree_name, num_years) => {
     educations.value.push({ schoolName: school_name, degree: degree_name, yearsAttended: num_years });
 };
+
 
 function update_refs_from_document(doc_ref: DocumentData) {
     aboutMe.value = doc_ref.aboutMe;
@@ -218,6 +223,7 @@ async function autosave_to_FB() { // Auto save any changes to FB
 
         aboutMe.value ? data_to_pass["aboutMe"] = aboutMe.value : console.debug("aboutMe Field invalid");
         county.value ? data_to_pass["county"] = county.value : console.debug("county Field invalid");
+        town.value ? data_to_pass["town"] = town.value : console.debug("Town Field invalid");
         educations.value ? data_to_pass["educations"] = educations.value : console.debug("educations Field invalid");
         email.value ? data_to_pass["email"] = email.value : console.debug("email Field invalid");
         firstname.value ? data_to_pass["firstname"] = firstname.value : console.debug("firstname Field invalid");
@@ -299,7 +305,7 @@ onMounted(async () => {
                         </label>
                         <input required v-model="firstname"
                             class=" rounded-full appearance-none  block w-full bg-gray-100   py-3 px-4 leading-tight focus:outline-none focus:bg-white"
-                            id="email" type="text" placeholder="Your First Name" @change="do_autosave">
+                            id="text" type="text" placeholder="Your First Name" @change="do_autosave">
                     </div>
 
                     <div class="w-5/12  mt-8 px-3">
@@ -313,17 +319,7 @@ onMounted(async () => {
                     </div>
                 </div>
 
-                <div class="flex flex-wrap justify-between -mx-3 mb-6 ">
-                    <div class=" w-1/2 mt-8 px-3">
-                        <label class="block uppercase tracking-wide text-gray-700 text-md font-sans font-bold mb-2"
-                            for="email">
-                            E-mail:
-                        </label>
-                        <input required v-model="email"
-                            class=" rounded-full appearance-none  block w-full bg-gray-100  py-3 px-4 leading-tight focus:outline-none focus:bg-white"
-                            id="email" type="email" placeholder="Your E-Mail" @change="do_autosave">
-                    </div>
-                </div>
+               
 
 
 
@@ -342,7 +338,7 @@ onMounted(async () => {
                 </div>
 
                 <div class="flex flex-wrap justify-between -mx-3 mb-6 ">
-                    <div class=" w-1/2 mt-8 px-3">
+                    <div class=" w-5/12  mt-8 px-3">
                         <label class="block uppercase tracking-wide text-gray-700 text-md font-sans font-bold mb-2"
                             for="county">
                             County
@@ -352,6 +348,16 @@ onMounted(async () => {
                             id="county">
                             <option v-for="county in All_Counties" :value="county">{{ county }}</option>
                         </select>
+                    </div>
+
+                    <div class="w-5/12  mt-8 px-3">
+                        <label class="block uppercase tracking-wide text-gray-700 text-md font-sans font-bold mb-2"
+                            for="town">
+                            Town:
+                        </label>
+                        <input required v-model="town"
+                            class=" rounded-full appearance-none  block w-full bg-gray-100   py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+                            id="town" type="text" placeholder="Ballybeag" @change="do_autosave">
                     </div>
                 </div>
                 <hr>
@@ -406,8 +412,11 @@ onMounted(async () => {
                             </div>
                         </div>
                         <button
-                            class="py-4 px-5 mt-5 bg-blue-500 rounded-full hover:bg-blue-300 text-white font-bold  border-b-4 border-blue-700 hover:border-blue-500"
+                            class="py-4 px-5 mt-5 w-1/2 bg-blue-500 rounded-full hover:bg-blue-300 text-white font-bold  border-b-4 border-blue-700 hover:border-blue-500"
                             @click="addWorkExperience">Add Work Experience</button>
+                        <button
+                            class="py-4 px-5 mt-5 w-1/2 bg-red-500 rounded-full hover:bg-red-300 text-white font-bold  border-b-4 border-red-700 hover:border-red-500"
+                            @click="workExperiences.pop()">Remove Work Experience</button>
                     </div>
 
                     <!-- Education Section -->
@@ -435,8 +444,11 @@ onMounted(async () => {
                             </div>
                         </div>
                         <button
-                            class="py-4 px-5 mt-5 bg-lime-500 rounded-full hover:bg-lime-300 text-white font-bold  border-b-4 border-lime-700 hover:border-lime-500"
+                            class="py-4 px-5 mt-5 w-1/2 bg-lime-500 rounded-full hover:bg-lime-300 text-white font-bold  border-b-4 border-lime-700 hover:border-lime-500"
                             @click="addEducation">Add Education</button>
+                        <button
+                            class="py-4 px-5 mt-5 w-1/2 bg-red-500 rounded-full hover:bg-red-300 text-white font-bold  border-b-4 border-red-700 hover:border-red-500"
+                            @click="educations.pop()">Remove  Education</button>
                     </div>
                 </div>
 
