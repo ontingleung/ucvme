@@ -6,6 +6,7 @@ import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { job_tags, All_Counties } from '@/main';
 import { v4 as uuidv4 } from 'uuid';
+import { getAuth } from 'firebase/auth';
 
 
 const chosen_job_tags = ref([job_tags[0], job_tags[0], job_tags[0], job_tags[0], job_tags[0], job_tags[0]]);
@@ -50,9 +51,9 @@ const job_desc_content = ref("");
 
 const target_county = ref(All_Counties[All_Counties.indexOf("Dublin")]); // target county is dublin by default
 
-const user = auth.currentUser;
-const has_login_been_implement_yet: boolean = false;
-const show_anyway = true;
+var user = auth.currentUser;
+const has_login_been_implement_yet: boolean = true;
+const show_anyway = false;
 
 onMounted(async () => {
     console.debug("tags are " + chosen_job_tags.value[0] + ", " + chosen_job_tags.value[1] + ", " + chosen_job_tags.value[2] + ", " + chosen_job_tags.value[3])
@@ -60,7 +61,8 @@ onMounted(async () => {
     update_months_side_text();
     update_salary_side_text();
 
-    if (user || show_anyway) {
+    user = getAuth().currentUser;
+    if (user) {
         //console.debug("Current user ID is " + user.uid);
         if (profileID_str != user.uid) {
             console.warn("WARNING : Router ID isnt same as Saved user ID... sus")
@@ -142,6 +144,7 @@ async function submit_listing(doc_data: {}) {
         salary_per_hour: doc_data["salary_per_hour"],
         tags: doc_data["tags"],
         type: doc_data["type"],
+        author_email: doc_data["author_email"],
         working_days: doc_data["working_days"]
     });
 
@@ -218,6 +221,7 @@ function verify_and_create_listing() {
     data_to_submit["salary_per_hour"] = salary.value;
     data_to_submit["tags"] = acceptable_tags;
     data_to_submit["type"] = job_type_json;
+    data_to_submit["author_email"] = getAuth().currentUser.email;
     data_to_submit["working_days"] = chosen_days_json;
 
     console.debug(data_to_submit);

@@ -5,10 +5,10 @@
 -->
 <script setup lang="ts">
 
-import { defineProps, withDefaults, ref } from 'vue';
+import { defineProps, withDefaults, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
-
+const description_text_trunc = ref('');
 
 const router = useRouter();
 
@@ -32,7 +32,19 @@ const props = withDefaults(defineProps<{
 //     router.push(`/messaging`);
 //     // router.push(`/messaging/${profile_link_to_nav_to}`); // Need to implement messaging
 // }
+const max_description_length = 230;
 
+onMounted(() => 
+{
+    if(props.job_description.length >= max_description_length)
+    {
+      description_text_trunc.value  = props.job_description.slice(0, (max_description_length-3)) + "...";
+    }
+    else
+    {
+      description_text_trunc.value  = props.job_description;
+    }
+})
 
 function GoToJob(job_link_to_nav_to: string) {
     router.push(`/view-listings/${job_link_to_nav_to}`);
@@ -49,7 +61,7 @@ function GoToJob(job_link_to_nav_to: string) {
       <p class="font-sans font-bold text-slate-100">From {{ job_author }}, County {{ job_county }}</p>
       
       <div class="max-w-prose font-sans" style="max-height: 80px;">
-        {{ job_description }} 
+        {{ description_text_trunc }} 
       </div>
     </div>
   </button>

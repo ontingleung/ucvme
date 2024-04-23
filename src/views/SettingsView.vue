@@ -146,12 +146,7 @@ async function del_account() {
 }
 
 
-function previewImage(event) {
-  const file = event.target.files[0];
-  if (file) {
-    user.value.profilePicture = URL.createObjectURL(file);
-  }
-}
+
 </script>
 
 
