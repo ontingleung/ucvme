@@ -77,7 +77,6 @@ function GoToMessageProfile(profile_link_to_nav_to: string) {
         console.debug("Attempting to go to " + mailto_link);
         router.push(`/view-profile/${profile_link_to_nav_to}`);
         window.location.href = mailto_link;
-        
     }
     // router.push(`/messaging/${profile_link_to_nav_to}`); // Need to implement messaging
 }

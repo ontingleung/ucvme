@@ -42,14 +42,6 @@ const router = createRouter({
       },
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    },
-    {
       path: '/listing-creation',
       name: 'listingCreation',
       component: () => import('../views/ListingCreationView.vue'),
@@ -121,6 +113,12 @@ const router = createRouter({
       path: '/view-listings',
       name: 'noListingProvided',
       component: () => import('../views/JobSearchView.vue')
+    },
+    {
+      // When NO profile ID is given, redirect to profile search
+      path: '/view-listings/:job_ID',
+      name: 'View_Job',
+      component: () => import('../views/JobView.vue')
     }
   ]
 })
